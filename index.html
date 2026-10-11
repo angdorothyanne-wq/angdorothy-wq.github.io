@@ -370,36 +370,37 @@ button.cv-hint:hover{background:color-mix(in srgb,var(--mark) 70%,transparent)}
 .thought-open{border:0;cursor:pointer;min-height:50px;padding:0 24px;border-radius:999px;background:#16213B;color:#fff;font:600 16px var(--body);box-shadow:0 10px 20px -12px rgba(22,33,59,.7);transition:transform .2s}
 .thought-open:hover{transform:translateY(-2px) rotate(-1deg)}
 .thought-overlay{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:calc(env(safe-area-inset-top,0px) + 16px) 12px calc(env(safe-area-inset-bottom,0px) + 16px)}
-.thought-backdrop{position:absolute;inset:0;background:rgba(14,20,36,.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
-.folder{position:relative;width:min(1080px,100%);height:min(88vh,880px);height:min(88dvh,880px);background:#7A5230;background-image:linear-gradient(135deg,#8A5E38,#6B4526);border-radius:14px;box-shadow:0 34px 80px -24px rgba(0,0,0,.75),inset 0 0 0 2px rgba(255,255,255,.08);display:flex;flex-direction:column;padding:16px;margin-top:10px}
-.folder-tab{position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-1.5deg);z-index:4;background:#FFFDF6;padding:10px 26px 9px;font-family:"Caveat",cursive;font-weight:600;font-size:26px;line-height:1;color:#16213B;box-shadow:0 8px 14px -8px rgba(0,0,0,.5);white-space:nowrap;max-width:86%;overflow:hidden;text-overflow:ellipsis}
-.folder-tab::before,.folder-tab::after{content:"";position:absolute;top:-6px;width:44px;height:16px;background:rgba(244,197,66,.75)}
-.folder-tab::before{left:-10px;transform:rotate(-24deg)}
-.folder-tab::after{right:-10px;transform:rotate(24deg)}
-.folder-close{position:absolute;top:26px;right:28px;width:44px;height:44px;border-radius:50%;border:0;background:#16213B;color:#fff;font-size:26px;line-height:1;cursor:pointer;z-index:5;box-shadow:0 6px 14px -6px rgba(0,0,0,.6)}
-.folder-body{position:relative;flex:1;border-radius:6px;overflow:auto;padding:46px 24px 30px;background-color:#C9965E;background-image:radial-gradient(rgba(90,55,20,.35) 1px,transparent 1.6px),radial-gradient(rgba(255,235,200,.35) 1px,transparent 1.6px),radial-gradient(rgba(120,75,30,.25) 2px,transparent 2.6px);background-size:7px 7px,11px 11px,17px 17px;background-position:0 0,3px 5px,8px 2px;box-shadow:inset 0 0 30px rgba(60,35,10,.45)}
-.notes{list-style:none;margin:0;padding:0;columns:4 200px;column-gap:22px}
-.note{break-inside:avoid;margin:0 0 24px;font-family:"Caveat","Comic Sans MS",cursive;font-size:22px;line-height:1.25;color:#23211C;padding:28px 18px 20px;display:block;box-shadow:0 14px 18px -12px rgba(0,0,0,.55);position:relative;transition:transform .2s}
-.note::before{content:"";position:absolute;top:9px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.7),var(--pin) 55%);box-shadow:0 3px 4px rgba(0,0,0,.4)}
-.note:nth-child(4n){transform:rotate(-2deg)}
-.note:nth-child(4n/**/+1){transform:rotate(1.4deg)}
-.note:nth-child(4n/**/+2){transform:rotate(-.6deg)}
-.note:nth-child(4n/**/+3){transform:rotate(2.2deg)}
-.note:hover{transform:rotate(0) scale(1.04);z-index:1}
-.n0{background:#FFFDF6;--pin:#C0392B;background-image:linear-gradient(#E8A6A0,#E8A6A0);background-size:100% 2px;background-position:0 22px;background-repeat:no-repeat}
-.n1{background:#F6E3A1;--pin:#1D5C4F}
-.n2{background:#D6E4CB;--pin:#16213B}
-.n3{background:#F2D0C4;--pin:#2F5DA8}
-.n4{background:#E9DDC8;--pin:#B06A3B;border-radius:0 0 18px 0}
-@media (prefers-reduced-motion: no-preference){.thought-overlay:not([hidden]) .folder{animation:folderIn .35s cubic-bezier(.2,.8,.2,1)}
-@keyframes folderIn{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}}
+.thought-backdrop{position:absolute;inset:0;background:rgba(14,20,36,.58)}
+/* Pop-up: one note at a time */
+.folder{position:relative;width:min(640px,100%);max-height:100%;display:flex;flex-direction:column;gap:20px;padding:22px 26px 26px;background:var(--slip);border-radius:18px;color:#16213B;box-shadow:0 34px 70px -30px rgba(8,12,24,.75)}
+.folder-tab{padding-right:56px;font:600 15px/1.3 var(--body);color:#44506A;min-height:44px;display:flex;align-items:center}
+.folder-close{position:absolute;top:22px;right:26px;width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:50%;background:#16213B;color:#FFFDF6;cursor:pointer;box-shadow:0 8px 16px -8px rgba(8,12,24,.6);transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.folder-close svg{width:18px;height:18px}
+.folder-close:hover{transform:rotate(90deg)}
+.folder-close:focus-visible,.nb-nav button:focus-visible{outline:3px solid #F4C542;outline-offset:3px}
+.folder-body{position:relative;overflow:hidden;border-radius:14px;touch-action:pan-y}
+.notes{list-style:none;margin:0;padding:0;display:grid}
+.note{grid-area:1/1;display:grid;place-items:center;min-height:340px;padding:40px 34px;border-radius:14px;text-align:center;font:700 clamp(25px,4.4vw,34px)/1.18 var(--display);letter-spacing:-.015em;color:#16213B;text-wrap:balance;visibility:hidden;opacity:0}
+.note.is-on{visibility:visible;opacity:1}
+.n0{background:#F4C542}.n1{background:#D6E4CB}.n2{background:#F2D0C4}.n3{background:#DCE6F7}.n4{background:#EBDDC3}
+.nb-nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nb-nav button{width:52px;height:52px;display:grid;place-items:center;border:2px solid #16213B;border-radius:50%;background:transparent;color:#16213B;cursor:pointer;transition:background-color .2s,color .2s,transform .2s cubic-bezier(.16,1,.3,1)}
+.nb-nav button svg{width:22px;height:22px}
+.nb-nav button:hover{background:#16213B;color:#FFFDF6}
+.nb-nav button:active{transform:scale(.94)}
+.nb-count{font:600 15px/1 var(--body);color:#44506A;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: no-preference){.thought-overlay:not([hidden]) .thought-backdrop{animation:nbFade .3s ease-out}
+.thought-overlay:not([hidden]) .folder{animation:folderIn .5s cubic-bezier(.16,1,.3,1)}
+.note.in-next{animation:nbInNext .45s cubic-bezier(.16,1,.3,1)}
+.note.in-prev{animation:nbInPrev .45s cubic-bezier(.16,1,.3,1)}
+@keyframes folderIn{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes nbFade{from{opacity:0}}
+@keyframes nbInNext{from{opacity:0;transform:translateX(48px) rotate(1.5deg)}to{opacity:1;transform:none}}
+@keyframes nbInPrev{from{opacity:0;transform:translateX(-48px) rotate(-1.5deg)}to{opacity:1;transform:none}}}
 body.no-scroll{overflow:hidden}
-@media (max-width:560px){.notes{columns:2 130px;column-gap:14px}
-.note{font-size:19px;padding:24px 12px 16px;margin-bottom:16px}
-.folder{padding:10px}
-.folder-body{padding:44px 12px 22px}
-.folder-close{top:18px;right:18px}
-.folder-tab{font-size:22px}}
+@media (max-width:560px){.folder{padding:18px 16px 18px;gap:16px}
+.folder-close{top:18px;right:16px}
+.note{min-height:min(52vh,380px);padding:32px 22px}}
 .book-panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:30px 28px;align-self:start}
 .book-panel h3{font-family:var(--display);font-size:28px;margin:0 0 10px;letter-spacing:-.01em}
 .book-panel > p{color:var(--ink-2);margin:0 0 20px}
@@ -1022,8 +1023,8 @@ body.rd-lock{overflow:hidden}
   <div class="thought-backdrop" data-close></div>
   <div class="folder">
     <div class="folder-tab"><span id="thoughtTitle">Says a lot about a person</span></div>
-    <button class="folder-close" type="button" data-close aria-label="Close">×</button>
-    <div class="folder-body">
+    <button class="folder-close" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="folder-body" aria-live="polite">
       <ul class="notes">
           <li class="note n0">What they do when they know they're about to fail</li>
           <li class="note n1">The way they go about their groceries</li>
@@ -1074,6 +1075,7 @@ body.rd-lock{overflow:hidden}
           <li class="note n1">How they take their eggs</li>
       </ul>
     </div>
+    <div class="nb-nav"><button type="button" data-nb="-1" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><span class="nb-count" aria-hidden="true"></span><button type="button" data-nb="1" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button></div>
   </div>
 </div>
 
@@ -1243,7 +1245,16 @@ body.rd-lock{overflow:hidden}
   function close(){ ov.hidden=true; document.body.classList.remove("no-scroll"); if(last) last.focus(); }
   openBtn.addEventListener("click",open);
   ov.querySelectorAll("[data-close]").forEach(function(el){ el.addEventListener("click",close); });
-  document.addEventListener("keydown",function(e){ if(e.key==="Escape" && !ov.hidden) close(); });
+  document.addEventListener("keydown",function(e){ if(ov.hidden) return; if(e.key==="Escape") close(); else if(e.key==="ArrowRight") go(1); else if(e.key==="ArrowLeft") go(-1); });
+  var notes=ov.querySelectorAll(".note"), count=ov.querySelector(".nb-count"), body=ov.querySelector(".folder-body"), i=0;
+  function show(d){ notes.forEach(function(n,k){ var on=k===i; n.classList.toggle("is-on",on); n.classList.remove("in-next","in-prev"); n.setAttribute("aria-hidden",on?"false":"true"); }); if(d){ void notes[i].offsetWidth; notes[i].classList.add(d>0?"in-next":"in-prev"); } if(count) count.textContent=(i+1)+" / "+notes.length; }
+  function go(d){ if(!notes.length) return; i=(i+d+notes.length)%notes.length; show(d); }
+  ov.querySelectorAll("[data-nb]").forEach(function(b){ b.addEventListener("click",function(){ go(+b.getAttribute("data-nb")); }); });
+  var sx=null, sy=null;
+  body.addEventListener("pointerdown",function(e){ sx=e.clientX; sy=e.clientY; });
+  body.addEventListener("pointerup",function(e){ if(sx===null) return; var dx=e.clientX-sx, dy=e.clientY-sy; sx=null; if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1); });
+  body.addEventListener("pointercancel",function(){ sx=null; });
+  show(0);
 })();
 </script>
 <script>
