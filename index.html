@@ -646,6 +646,16 @@ body.rd-lock{overflow:hidden}
 @media (max-width:560px){.cv-actions{flex-direction:column;align-items:center}.cv-cvbtn,.cv-actions .cv-go{width:min(92vw,420px)}}
 .cv-links{flex-wrap:wrap;justify-content:center;gap:4px 22px}
 
+/* Card back, round 4: five areas, each with a short line of detail */
+.c-list2{gap:12px!important}
+.c-list2 .c-it{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:baseline}
+.c-list2 .c-it::before{grid-row:1/3;margin-right:0!important}
+.c-list2 b{font-weight:600;font-size:17px;line-height:1.3;color:#16213B}
+.c-list2 small{grid-column:2;font-size:14px;line-height:1.4;color:#44506A}
+.c-proof{color:#1D5C4F;font-weight:600}
+@media (min-width:801px){.c-list2{display:grid!important;grid-template-columns:1fr 1fr;gap:10px 28px!important}.c-list2 b{font-size:15.5px}.c-list2 small{font-size:13px}}
+@media (min-width:801px){.face.back .c-back-title{margin-bottom:14px}.c-list2{margin-top:4px}.face.back .c-proof{padding-top:10px}}
+
 </style>
 </head>
 <body>
@@ -662,10 +672,10 @@ body.rd-lock{overflow:hidden}
         <span class="c-weave" aria-hidden="true"></span>
       </span>
       <span class="face back">
-        <span class="c-kick">9+ years · banking, tech support, eCommerce</span>
-        <span class="c-back-title">What I bring</span>
-        <span class="c-list"><span>VA and admin support</span><span>eCommerce, orders and logistics</span><span>Claims and dispute resolution</span><span>Remote technical support</span></span>
-        <span class="c-proof">J.P. Morgan Chase · Accenture for Wix and Lenovo · U.S. eCommerce</span>
+        <span class="c-kick">9+ years of experience</span>
+        <span class="c-back-title">How I can help</span>
+        <span class="c-list c-list2"><span class="c-it"><b>VA and admin support</b><small>Inbox, calendar, travel, documents and personal tasks</small></span><span class="c-it"><b>Business operations</b><small>SOPs, hiring and training, costing and day‑to‑day running</small></span><span class="c-it"><b>eCommerce, orders and logistics</b><small>Orders, suppliers, shipping, returns and inventory</small></span><span class="c-it"><b>Claims and dispute resolution</b><small>Damage claims, chargebacks and fraud checks</small></span><span class="c-it"><b>Remote technical support</b><small>Hardware, software, websites and domains</small></span></span>
+        <span class="c-proof">Flexible hours, any time zone · Fully equipped home office</span>
         <span class="c-one">One client at a time.</span>
         <span class="c-weave" aria-hidden="true"></span>
       </span>
