@@ -837,7 +837,7 @@ body.rd-lock{overflow:hidden}
       <div class="rd-setup-copy">
         <p class="t-kicker">Home office</p>
         <h2 id="h-setup">My work-from-home office</h2>
-        <p>Before I started applying for jobs, I made sure my home office was ready. I wanted a quiet, comfortable space where I can focus and show up for you every day.</p><p>I set it up with fast internet and a backup connection, noise-cancelling audio and a proper screen, so our calls stay clear and the work keeps moving even if one connection drops.</p>
+        <p>Before I started applying for jobs, I made sure my home office was ready. I wanted a quiet, comfortable space where I can focus and show up for you every day.</p><p>I&#x27;m of Chinese descent and grew up with feng shui as part of everyday life. So when I set up my office, I gave it its own room, separate from my bedroom, and placed my desk in the command position: facing the door, with a solid wall behind me and a window view. It helps me stay focused during work hours and switch off when the day is done.</p>
         <div class="rd-gear"><div class="rd-gear-g"><h3>Internet</h3><ul><li>Starlink Standard, Residential Max plan, up to 400+ Mbps</li><li>Globe prepaid as backup, up to 20 Mbps</li></ul></div><div class="rd-gear-g"><h3>Computer and screen</h3><ul><li>M2 Apple MacBook</li><li>N-Vision external IPS monitor, 144 Hz, 1920 × 1080</li><li>iPad (A16) with Apple Pencil</li></ul></div><div class="rd-gear-g"><h3>Calls and audio</h3><ul><li>HyperX dynamic microphone that cancels background noise</li><li>AirPods Max</li><li>AirPods Pro with active noise cancellation</li></ul></div></div>
         <button class="btn primary rd-setup-open" type="button" data-photo="0">See my workspace</button>
       </div>
@@ -973,7 +973,7 @@ body.rd-lock{overflow:hidden}
 </div>
 <dialog class="rd-lb" id="photoBox" aria-labelledby="photoBoxTitle">
   <div class="rd-lb-bar"><p id="photoBoxTitle">My home office <span class="rd-lb-pos" aria-live="polite">1 of 4</span></p><button class="rd-lb-x" type="button" data-lb-close aria-label="Close photos">×</button></div>
-  <div class="rd-lb-stage"><figure class="rd-lb-slide"><img alt="" decoding="async"><figcaption></figcaption></figure></div>
+  <div class="rd-lb-stage"><figure class="rd-lb-slide"><img alt="" decoding="async"></figure></div>
   <div class="rd-lb-nav"><button class="btn" type="button" data-lb-prev>Previous photo</button><button class="btn" type="button" data-lb-next>Next photo</button></div>
 </dialog>
 
@@ -1181,8 +1181,8 @@ body.rd-lock{overflow:hidden}
   /* Home office photo viewer: native dialog, so Escape closes it and focus is kept inside */
   var box=document.getElementById("photoBox");
   if(box && box.showModal){
-    var thumbs=[].slice.call(document.querySelectorAll("#setup .rd-ph")), img=box.querySelector(".rd-lb-slide img"), cap=box.querySelector(".rd-lb-slide figcaption"), pos=box.querySelector(".rd-lb-pos"), cur=0, opener=null;
-    function show(i){ cur=(i+thumbs.length)%thumbs.length; var t=thumbs[cur]; img.src=t.querySelector("img").src; img.alt=t.getAttribute("data-alt"); cap.textContent=t.getAttribute("data-alt"); pos.textContent=(cur+1)+" of "+thumbs.length; }
+    var thumbs=[].slice.call(document.querySelectorAll("#setup .rd-ph")), img=box.querySelector(".rd-lb-slide img"), pos=box.querySelector(".rd-lb-pos"), cur=0, opener=null;
+    function show(i){ cur=(i+thumbs.length)%thumbs.length; var t=thumbs[cur]; img.src=t.querySelector("img").src; img.alt=t.getAttribute("data-alt"); pos.textContent=(cur+1)+" of "+thumbs.length; }
     document.querySelectorAll("#setup [data-photo]").forEach(function(b){
       b.addEventListener("click",function(){ opener=b; show(+b.getAttribute("data-photo")); box.showModal(); document.body.classList.add("rd-lock"); box.querySelector("[data-lb-next]").focus(); });
     });
