@@ -843,6 +843,10 @@ h3{font-weight:600}
 .td-si p{color:var(--ink2)}
 .td-si-btn{display:inline-flex;align-items:center;gap:10px;background:var(--pri);color:var(--on-pri);border-radius:999px;padding:12px 22px;text-decoration:none;font-weight:700}
 .td-si-back{font-weight:600;font-size:.9rem;color:var(--ink2)}
+.td-si-lbl{font-weight:700;font-size:.85rem;color:var(--ink2);justify-self:start}
+.td-si-in{width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:14px;padding:0 14px;background:var(--card2);font-size:1rem}
+.td-si-err{color:var(--red);min-height:1.2em;font-size:.9rem;margin:0}
+.td-si-btn{border:0;cursor:pointer;font-size:1rem}
 </style>
 </head>
 <body>
@@ -876,10 +880,21 @@ h3{font-weight:600}
   function showSignIn() {
     if (document.getElementById('td-signin')) return;
     const box = document.createElement('div'); box.id = 'td-signin';
-    box.innerHTML = `<div class="td-si"><div class="td-si-logo">✓</div><h1>Ta-Done!</h1><p>Sign in with your Google account to open your dashboard. Your calendar, tasks and Drive connect at the same time.</p>
-      <a class="td-si-btn" href="${API}/auth/login"><svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Sign in with Google</a>
-      <a class="td-si-back" href="/">Back to workwithdorothy.com</a></div>`;
+    box.innerHTML = `<form class="td-si" id="td-pw-form"><div class="td-si-logo">✓</div><h1>Ta-Done!</h1><p>Enter your password to open your dashboard.</p>
+      <label for="td-pw" class="td-si-lbl">Password</label><input id="td-pw" type="password" autocomplete="current-password" required class="td-si-in">
+      <p id="td-pw-err" class="td-si-err" role="alert"></p>
+      <button class="td-si-btn" type="submit">Open</button>
+      <a class="td-si-back" href="/">Back to workwithdorothy.com</a></form>`;
     document.body.appendChild(box);
+    const f = box.querySelector('#td-pw-form'), pw = box.querySelector('#td-pw'), err = box.querySelector('#td-pw-err');
+    setTimeout(() => pw.focus(), 50);
+    f.addEventListener('submit', async e => {
+      e.preventDefault(); err.textContent = '';
+      const r = await fetch(API + '/auth/password', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: pw.value }) }).catch(() => null);
+      if (r && r.ok) { location.reload(); return; }
+      const d = r ? await r.json().catch(() => ({})) : {};
+      err.textContent = (d.error && d.error.message) || 'Couldn\'t check that. Are you online?'; pw.select();
+    });
   }
 
   // ---------- Database: one private collection, synced across devices ----------
@@ -2546,14 +2561,14 @@ function dedupeEvents(list) {
 }
 function gcErrorHTML(err) {
   const c = err && err.code;
-  if (c === 'needs_reauth') return 'Your Google sign-in expired. <a href="/api/auth/login?reconnect=1">Reconnect Google</a>.';
-  if (c === 'server_not_connected' || c === 'server_not_found') return 'Connect Google to see your meetings here. <a href="/api/auth/login?reconnect=1">Reconnect Google</a>.';
+  if (c === 'needs_reauth') return 'Your Google sign-in expired. <a href="/api/auth/google?reconnect=1">Reconnect Google</a>.';
+  if (c === 'server_not_connected' || c === 'server_not_found') return 'Connect Google to see your meetings here. <a href="/api/auth/google?reconnect=1">Reconnect Google</a>.';
   if (c === 'selection_required') return 'You have more than one Google Calendar connected. Pick one when Claude asks, then reload.';
   if (c === 'not_in_manifest' || c === 'consent_required') return `Calendar access is turned off for this page. <button class="btn sm" data-act="gc-perms">Allow access</button>`;
   if (c === 'blocked_by_policy' || c === 'approval_required') return 'Your organization blocks calendar access here.';
   if (c === 'not_granted' || c === 'capability_disabled') return 'Calendar isn\'t available in this view. Reload the page to try again.';
   if (c === 'server_unavailable' || c === 'rate_limited') return 'Google Calendar isn\'t responding right now. It will try again soon.';
-  return 'Couldn\'t load your calendar just now. It tries again every few minutes. If it keeps happening, <a href="/api/auth/login?reconnect=1">Reconnect Google</a>.';
+  return 'Couldn\'t load your calendar just now. It tries again every few minutes. If it keeps happening, <a href="/api/auth/google?reconnect=1">Reconnect Google</a>.';
 }
 function wGcal(now) {
   const k = today(), t0 = dayStart(k), t1 = dayEnd(k);
@@ -3564,15 +3579,15 @@ function gsyncSettingsHTML() {
   const st = (x, idle) => x.busy ? 'Syncing…' : x.err ? `<span style="color:var(--red)">${esc(gErrText(x.err))}</span>` : x.at ? 'Synced ' + agoTxt(x.at) : idle;
   const sw = (key, on) => `<button class="btn sm ${on ? 'lime' : ''}" data-act="gs-toggle" data-v="${key}" aria-pressed="${on}">${on ? 'On' : 'Off'}</button>`;
   return `<section class="panel" id="gsync-panel"><h2 style="margin-bottom:6px">Google account and sync</h2>
-    <p class="muted small" style="margin-bottom:10px">Signed in as <b>${esc(me.email || '')}</b>. Everything you change here saves to your own Ta-Done! and copies to Google on its own.</p>
-    <div class="dsrow"><div style="flex:1 1 240px"><b>Google Calendar</b><p class="muted small">Your meetings show on the dashboard and Calendar page. Tasks with a date can be added to your calendar.</p></div>${me.google ? '<span class="chip ok">Connected</span>' : '<a class="btn sm primary" href="/api/auth/login?reconnect=1">Connect</a>'}</div>
+    <p class="muted small" style="margin-bottom:10px">${me.google ? `Connected to Google as <b>${esc(me.email || '')}</b>. Everything you change here saves to your own Ta-Done! and copies to Google on its own.` : 'Connect your Google account once so your calendar, tasks, journal and time log sync. You only do this once; after that, your password is all you need.'}</p>
+    <div class="dsrow"><div style="flex:1 1 240px"><b>Google Calendar</b><p class="muted small">Your meetings show on the dashboard and Calendar page. Tasks with a date can be added to your calendar.</p></div>${me.google ? '<span class="chip ok">Connected</span>' : '<a class="btn sm primary" href="/api/auth/google?reconnect=1">Connect Google</a>'}</div>
     <div class="dsrow"><div style="flex:1 1 240px"><b>Tasks ↔ Google Tasks</b><p class="muted small">Your open tasks live in a <b>Ta-Done!</b> list in Google Tasks too. Tick one off on your phone and it's done here. ${st(GSYNC.tasks, '')}</p></div>
       <span class="row">${S.settings.gtasks !== false ? '<button class="btn sm ghost" data-act="gs-now" data-v="tasks">Sync now</button>' : ''}${sw('gtasks', S.settings.gtasks !== false)}</span></div>
     <div class="dsrow"><div style="flex:1 1 240px"><b>Journal → Google Docs</b><p class="muted small">One Google Doc per month, updated a few seconds after you write. ${st(GSYNC.docs, '')}${months.length ? '<br>' + months.slice(0, 3).map(mk => `<a href="${esc(jl[mk].url)}" target="_blank" rel="noopener">${esc(mk)}</a>`).join(' · ') : ''}</p></div>
       <span class="row">${S.settings.gdocs !== false ? '<button class="btn sm ghost" data-act="gs-now" data-v="docs">Sync now</button>' : ''}${sw('gdocs', S.settings.gdocs !== false)}</span></div>
     <div class="dsrow"><div style="flex:1 1 240px"><b>Time log → Google Sheet</b><p class="muted small">Every timer session, newest first. ${st(GSYNC.sheet, '')}${ln.timelog ? ` · <a href="${esc(ln.timelog.url)}" target="_blank" rel="noopener">Open sheet</a>` : ''}</p></div>
       <span class="row">${S.settings.gsheet !== false ? '<button class="btn sm ghost" data-act="gs-now" data-v="sheet">Sync now</button>' : ''}${sw('gsheet', S.settings.gsheet !== false)}</span></div>
-    <p class="muted small" style="margin-top:10px">${ln.folder ? `<a href="${esc(ln.folder.url)}" target="_blank" rel="noopener">Open the Ta-Done! folder in Drive</a> · ` : ''}<a href="/api/auth/login?reconnect=1">Reconnect Google</a> · <a href="/api/auth/logout">Sign out</a></p>
+    <p class="muted small" style="margin-top:10px">${ln.folder ? `<a href="${esc(ln.folder.url)}" target="_blank" rel="noopener">Open the Ta-Done! folder in Drive</a> · ` : ''}${me.google ? '<a href="/api/auth/google?reconnect=1">Reconnect Google</a> · ' : ''}<a href="/api/auth/logout">Lock Ta-Done!</a></p>
   </section>`;
 }
 function paintGsync() { const el = document.getElementById('gsync-panel'); if (el && view === 'settings' && !el.contains(document.activeElement)) { const d = document.createElement('div'); d.innerHTML = gsyncSettingsHTML(); el.replaceWith(d.firstElementChild); } }

@@ -1,5 +1,5 @@
 // Ta-Done! API: sign-in, data sync, and Google + weather tools.
-import { json, fail, ensureSchema, kvGet, kvSet, kvDel, COOKIE, makeSession, sessionEmail, sameEmail, setCookie, cookie, g } from '../_lib.js';
+import { json, fail, ensureSchema, kvGet, kvSet, kvDel, COOKIE, makeSession, sessionEmail, sameEmail, setCookie, cookie, g, checkPassword } from '../_lib.js';
 import { runTool } from '../_tools.js';
 
 const SCOPES = [
@@ -28,7 +28,7 @@ export async function onRequest(ctx) {
     }
     if (parts[0] === 'status') {
       const tok = await kvGet(env, 'google');
-      return json({ email, google: !!(tok && tok.refresh_token), scope: tok && tok.scope || '', links: (await kvGet(env, 'links')) || {} });
+      return json({ email: tok && tok.email || '', google: !!(tok && tok.refresh_token), scope: tok && tok.scope || '', links: (await kvGet(env, 'links')) || {} });
     }
     return fail('not_found', 'Unknown endpoint', 404);
   } catch (e) {
@@ -41,7 +41,19 @@ export async function onRequest(ctx) {
 // ---------- Google sign-in ----------
 async function auth(step, req, env, url) {
   const origin = url.origin, redirect = origin + '/api/auth/callback';
-  if (step === 'login') {
+  if (step === 'password' && req.method === 'POST') {
+    const lock = (await kvGet(env, 'pwfail')) || { n: 0, at: 0 };
+    if (lock.n >= 8 && Date.now() - lock.at < 15 * 60000) return fail('locked', 'Too many tries. Wait 15 minutes and try again.', 429);
+    const body = await req.json().catch(() => ({}));
+    if (!(await checkPassword(env, body.password))) {
+      await kvSet(env, 'pwfail', { n: (Date.now() - lock.at < 15 * 60000 ? lock.n : 0) + 1, at: Date.now() });
+      return fail('wrong_password', 'That\'s not it. Try again.', 401);
+    }
+    await kvSet(env, 'pwfail', { n: 0, at: 0 });
+    return json({ ok: true }, 200, { 'set-cookie': setCookie(COOKIE, await makeSession(env, 'owner'), 180 * 86400) });
+  }
+  if (step === 'login' || step === 'google') {
+    if (!(await sessionEmail(req, env))) return new Response(null, { status: 302, headers: { location: APP_PATH } });
     if (!env.GOOGLE_CLIENT_ID) return new Response('Google sign-in is not set up yet (GOOGLE_CLIENT_ID missing).', { status: 500 });
     const state = crypto.randomUUID();
     const tok = await kvGet(env, 'google');
@@ -64,11 +76,11 @@ async function auth(step, req, env, url) {
     const d = await r.json().catch(() => ({}));
     if (!r.ok || !d.access_token) return page('Google didn\'t accept the sign-in. <a href="' + APP_PATH + '">Try again</a>.', 400);
     const who = await (await fetch('https://openidconnect.googleapis.com/v1/userinfo', { headers: { authorization: 'Bearer ' + d.access_token } })).json().catch(() => ({}));
-    if (!who.email || !who.email_verified || !sameEmail(who.email, env.ALLOWED_EMAIL)) return page('This Ta-Done! is private. ' + (who.email ? 'The account ' + escapeHtml(who.email) + ' isn\'t allowed.' : '') + ' <a href="/">Back to the website</a>.', 403);
+    if (!(await sessionEmail(req, env))) return page('Unlock Ta-Done! with your password first. <a href="' + APP_PATH + '">Open Ta-Done!</a>', 401);
+    if (!who.email || !who.email_verified || (env.ALLOWED_EMAIL && !sameEmail(who.email, env.ALLOWED_EMAIL))) return page('This Ta-Done! is private. ' + (who.email ? 'The account ' + escapeHtml(who.email) + ' isn\'t allowed.' : '') + ' <a href="/">Back to the website</a>.', 403);
     const old = (await kvGet(env, 'google')) || {};
     await kvSet(env, 'google', { refresh_token: d.refresh_token || old.refresh_token, access_token: d.access_token, exp: Date.now() + (d.expires_in || 3600) * 1000, scope: d.scope || old.scope, email: who.email, name: who.name || '', picture: who.picture || '' });
-    const h = new Headers({ location: APP_PATH });
-    h.append('set-cookie', setCookie(COOKIE, await makeSession(env, who.email), 180 * 86400));
+    const h = new Headers({ location: APP_PATH + '#google-connected' });
     h.append('set-cookie', setCookie('tadone_st', '', 0));
     return new Response(null, { status: 302, headers: h });
   }
@@ -76,7 +88,7 @@ async function auth(step, req, env, url) {
     const email = await sessionEmail(req, env);
     if (!email) return fail('signed_out', 'Sign in to continue.', 401);
     const tok = (await kvGet(env, 'google')) || {};
-    return json({ email, name: tok.name || '', picture: tok.picture || '', google: !!tok.refresh_token, scope: tok.scope || '' });
+    return json({ email: tok.email || '', name: tok.name || '', picture: tok.picture || '', google: !!tok.refresh_token, scope: tok.scope || '' });
   }
   if (step === 'logout') return new Response(null, { status: 302, headers: { location: '/', 'set-cookie': setCookie(COOKIE, '', 0) } });
   return fail('not_found', 'Unknown auth step', 404);

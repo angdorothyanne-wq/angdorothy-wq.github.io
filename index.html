@@ -1538,6 +1538,7 @@ const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/aja
       var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(V.s),iterations:V.n,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
       var url=new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(V.i)},key,b64(V.c)));
       if(url!=="/ta-done/") throw 0;
+      try{await fetch("/api/auth/password",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({password:pw.value})});}catch(x){}
       dlg.close(); window.location.href=url;
     }catch(x){
       err.textContent="That\u2019s not it. Try again.";pw.select();
