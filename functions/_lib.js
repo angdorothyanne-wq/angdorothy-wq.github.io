@@ -1,5 +1,6 @@
 // Shared helpers for Ta-Done's backend (Cloudflare Pages Functions + D1).
-// Env: DB (D1 binding), GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SESSION_SECRET, ALLOWED_EMAIL
+// Env: DB (D1 binding), GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, ALLOWED_EMAIL, optional SESSION_SECRET
+const sessKey = env => env.SESSION_SECRET || env.GOOGLE_CLIENT_SECRET;
 
 export const json = (data, status = 200, headers = {}) =>
   new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...headers } });
@@ -31,21 +32,20 @@ async function hmac(secret, msg) {
 export const COOKIE = 'tadone_s';
 export async function makeSession(env, email) {
   const exp = Date.now() + 180 * 864e5, body = b64u(enc.encode(JSON.stringify({ e: email, x: exp })));
-  return body + '.' + await hmac(env.SESSION_SECRET, body);
+  return body + '.' + await hmac(sessKey(env), body);
 }
 export function cookie(req, name) {
   const m = (req.headers.get('cookie') || '').split(/;\s*/).find(c => c.startsWith(name + '='));
   return m ? decodeURIComponent(m.slice(name.length + 1)) : null;
 }
 export async function sessionEmail(req, env) {
-  const v = cookie(req, COOKIE); if (!v || !env.SESSION_SECRET) return null;
+  const v = cookie(req, COOKIE); if (!v || !sessKey(env)) return null;
   const [body, sig] = v.split('.'); if (!body || !sig) return null;
-  if (await hmac(env.SESSION_SECRET, body) !== sig) return null;
+  if (await hmac(sessKey(env), body) !== sig) return null;
   try {
     const d = JSON.parse(atob(body.replace(/-/g, '+').replace(/_/g, '/')));
     if (!d.x || d.x < Date.now()) return null;
-    if (!sameEmail(d.e, env.ALLOWED_EMAIL)) return null;
-    return d.e;
+    return d.e || 'owner';
   } catch (e) { return null; }
 }
 export const sameEmail = (a, b) => !!a && !!b && String(b).split(',').map(x => x.trim().toLowerCase()).includes(String(a).trim().toLowerCase());
@@ -90,4 +90,18 @@ export async function g(env, url, opts = {}) {
     if (r.status === 429 || r.status >= 500) throw Object.assign(new Error(String(msg)), { code: 'server_unavailable' });
     throw Object.assign(new Error(String(msg)), { code: 'tool_error' });
   }
+}
+
+// ---------- Password (the only way in) ----------
+// The password's PBKDF2-SHA256 hash lives only in the TADONE_PASSWORD_HASH secret ("salt$hash", base64), never in this code.
+const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+export async function checkPassword(env, pw) {
+  if (!env.TADONE_PASSWORD_HASH) return false;
+  const [salt, want] = String(env.TADONE_PASSWORD_HASH).trim().split('$');
+  if (!salt || !want) return false;
+  const key = await crypto.subtle.importKey('raw', enc.encode(String(pw || '')), 'PBKDF2', false, ['deriveBits']);
+  const bits = new Uint8Array(await crypto.subtle.deriveBits({ name: 'PBKDF2', salt: fromB64(salt), iterations: 100000, hash: 'SHA-256' }, key, 256));
+  const w = fromB64(want); if (w.length !== bits.length) return false;
+  let diff = 0; for (let i = 0; i < w.length; i++) diff |= w[i] ^ bits[i];
+  return diff === 0;
 }
