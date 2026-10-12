@@ -432,6 +432,26 @@ section.block.pinoy{background-color:#12182A;background-image:linear-gradient(18
 .pinoy .value p.baybayin{color:#F4C542!important}
 footer{padding:36px 0 48px;border-top:1px solid var(--line);color:var(--ink-2);font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+/* Private lock (Ta-Done!) */
+#mainNav{display:flex;align-items:center;gap:4px}
+.pv-lock{display:inline-grid;place-items:center;width:36px;height:36px;margin-left:4px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--ink-2);opacity:.45;cursor:pointer;transition:opacity .2s ease,background-color .2s ease}
+.pv-lock:hover,.pv-lock:focus-visible{opacity:1;background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.pv-lock svg{width:17px;height:17px}
+.pv-dlg{border:1px solid var(--line);border-radius:16px;padding:22px;width:min(340px,calc(100vw - 32px));background:var(--paper);color:var(--ink);box-shadow:0 24px 60px -24px rgba(22,33,59,.45)}
+.pv-dlg::backdrop{background:rgba(22,33,59,.35);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.pv-dlg form{display:grid;gap:12px;margin:0;padding:0;border:0;border-radius:0;background:transparent}
+.pv-head{display:flex;align-items:center;gap:10px;font:700 17px var(--display)}
+.pv-head svg{width:20px;height:20px;color:var(--accent)}
+.pv-dlg label{font-size:14px;font-weight:600;color:var(--ink-2)}
+.pv-dlg input{width:100%;min-height:46px;padding:0 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--ground);color:var(--ink);font:500 16px var(--body)}
+.pv-dlg input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+.pv-err{margin:0;min-height:1.2em;font-size:14px;color:#B3261E}
+.pv-row{display:flex;gap:8px;justify-content:flex-end}
+.pv-row button{min-height:42px;padding:0 18px;border-radius:999px;font:600 15px var(--body);cursor:pointer;border:2px solid var(--line);background:transparent;color:var(--ink)}
+.pv-row .pv-go{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.pv-dlg.shake form{animation:pvshake .32s}
+@keyframes pvshake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 </style>
 <style id="lm-style">
 @media (max-width:860px){#about .bento>.tile{grid-column:1/-1}}
@@ -894,6 +914,7 @@ footer{font-size:14px;border-top-color:var(--line)}
         <li><a href="#services">Services</a></li><li><a href="#credentials">Experience</a></li><li><a href="#how">How I work</a></li><li><a href="#setup">Home office</a></li><li><a href="#about">About me</a></li>
         <li class="rd-navcv"><a class="cta" href="https://docs.google.com/document/d/1Q1Sn6l2Safm4y0FiT6ZEaMbcO78jn-sbpaGSzm8nroA/view" target="_blank" rel="noopener">View my CV</a></li>
       </ul>
+      <button class="pv-lock" type="button" aria-label="Private" title="Private" aria-haspopup="dialog"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg></button>
     </nav>
   </div>
 </header>
@@ -1493,5 +1514,37 @@ new ResizeObserver(()=>fit()).observe(box);
 if(!document.getElementById("lm-svg"))return;
 const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js";s.onload=init;s.onerror=function(){var i=document.getElementById("lm-info");if(i)i.textContent="The map couldn’t load right now. Try refreshing the page.";var z=document.querySelector("#learning-map .lm-zoom");if(z)z.hidden=true;};document.head.appendChild(s);
 })();</script>
+
+<dialog class="pv-dlg" id="pvDlg" aria-labelledby="pvTitle">
+  <form method="dialog" id="pvForm">
+    <div class="pv-head"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg><span id="pvTitle">Enter your password</span></div>
+    <label class="pv-sr" for="pvPw" hidden>Password</label>
+    <input id="pvPw" type="password" autocomplete="current-password" aria-label="Password" required>
+    <p class="pv-err" id="pvErr" role="alert"></p>
+    <div class="pv-row"><button type="button" id="pvCancel">Cancel</button><button type="submit" class="pv-go">Open</button></div>
+  </form>
+</dialog>
+<script>
+(function(){
+  var V={"s": "ht3HSSf4cHWFQ2lxYFXO9Q==", "i": "vhjpnqwqOPsA4zL1", "c": "a7KYJXF9oeUfkqImEa+Zf5wIjFnZEuXfDCKomQtFw9wRxSjXeZ5FOqwXhqNOyGDX8I4mqOtKEG7sdUUvZ9BTRwA=", "n": 310000};
+  var dlg=document.getElementById("pvDlg"),f=document.getElementById("pvForm"),pw=document.getElementById("pvPw"),err=document.getElementById("pvErr");
+  var b64=function(x){return Uint8Array.from(atob(x),function(c){return c.charCodeAt(0);});};
+  document.querySelector(".pv-lock").addEventListener("click",function(){err.textContent="";pw.value="";if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","");pw.focus();});
+  document.getElementById("pvCancel").addEventListener("click",function(){dlg.close();});
+  f.addEventListener("submit",async function(e){
+    e.preventDefault();
+    try{
+      var base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw.value),"PBKDF2",false,["deriveKey"]);
+      var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(V.s),iterations:V.n,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+      var url=new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(V.i)},key,b64(V.c)));
+      if(!/^https:\/\/claude\.ai\//.test(url)) throw 0;
+      dlg.close(); window.location.href=url;
+    }catch(x){
+      err.textContent="That\u2019s not it. Try again.";pw.select();
+      dlg.classList.remove("shake");void dlg.offsetWidth;dlg.classList.add("shake");
+    }
+  });
+})();
+</script>
 </body>
 </html>
