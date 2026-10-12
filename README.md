@@ -1,32 +1,20 @@
-# Hi, I'm Dorothy!
+# Dorothy Ang
 
-Welcome to the home of my personal website.
+This repo holds my personal website, [workwithdorothy.com](https://workwithdorothy.com).
 
-**Visit it here:** [workwithdorothy.com](https://workwithdorothy.com)
+I'm a virtual assistant based in Davao de Oro, Philippines. I've spent more than nine years in banking, tech support, eCommerce and business operations. I investigated fraud and disputes at J.P. Morgan Chase, supported Wix and Lenovo customers at Accenture, handled claims for a U.S. furniture brand, and helped run our family business. I work with one client at a time, so the work gets my full attention.
 
-I'm a virtual assistant from the Philippines and your behind the scenes partner. I have 9 years of experience in customer service, business operations, order management, claims and tech support. I work with one client at a time, so you'll always have my full attention.
+## What's on the site
 
-## What you'll find on my website
+I laid it out the way I'd introduce myself in person. It starts with what I can help with, then my experience, how I like to work and my home office. After that comes a bit of life outside work: my learning map from Obsidian, the books I love, the places I've been, and the piano I'm picking back up. There's also a calling card you can flip, and a letter to future clients. That's the part of me that doesn't fit on a CV.
 
-- **My calling card.** Tap it to flip it and see how I can support you.
-- **What I do best.** Admin support, eCommerce and logistics, claims and dispute resolution, and remote tech support.
-- **How I work.** I think like an owner, because I've been one.
-- **A letter from me.** The part of me you won't find on my CV.
-- **About me.** My learning map built in Obsidian, books, the places I've explored, the piano, and the Filipino values that shape how I work.
-- **A way to reach me.** Book a call on my calendar or send me an email.
+## How it's built
 
-## How I built it
+Everything lives in one file, `index.html`. It's plain HTML, CSS and JavaScript, with no frameworks or build tools. Cloudflare Pages publishes it automatically whenever this repo changes.
 
-This website was made with plain HTML, CSS and JavaScript. It's all in a single file, `index.html`, with no frameworks and no build tools. It's hosted on Cloudflare Pages, which publishes every change made here automatically.
+## Say hello
 
-## Let's get to know each other
+If you're looking for a VA, or you just want to say hi, I'd love to hear from you.
 
-I'd love to hear from you, whether you're looking for a VA or just want to say hello.
-
-- **Email:** angdorothyanne@gmail.com
-- **Book a call:** [cal.com/dorothy-ang-pfv9ku](https://cal.com/dorothy-ang-pfv9ku/30min)
-- **Based in:** Davao de Oro, Philippines. I'm happy to work with clients in any time zone.
-
----
-
-Handled with care, *one client at a time.* 💛
+- Email: angdorothyanne@gmail.com
+- Book a call: [cal.com/dorothy-ang-pfv9ku](https://cal.com/dorothy-ang-pfv9ku/30min)
