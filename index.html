@@ -1526,7 +1526,7 @@ const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/aja
 </dialog>
 <script>
 (function(){
-  var V={"s": "ht3HSSf4cHWFQ2lxYFXO9Q==", "i": "vhjpnqwqOPsA4zL1", "c": "a7KYJXF9oeUfkqImEa+Zf5wIjFnZEuXfDCKomQtFw9wRxSjXeZ5FOqwXhqNOyGDX8I4mqOtKEG7sdUUvZ9BTRwA=", "n": 310000};
+  var V={"s":"bGA3isChV+4v7bYsNJOpVA==","i":"GgFmDODT9fTqt/I+","c":"V1wctSnLBOUYtI8r4HGLoEq2kmdGnbCoHg==","n":310000};
   var dlg=document.getElementById("pvDlg"),f=document.getElementById("pvForm"),pw=document.getElementById("pvPw"),err=document.getElementById("pvErr");
   var b64=function(x){return Uint8Array.from(atob(x),function(c){return c.charCodeAt(0);});};
   document.querySelector(".pv-lock").addEventListener("click",function(){err.textContent="";pw.value="";if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","");pw.focus();});
@@ -1537,7 +1537,7 @@ const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/aja
       var base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw.value),"PBKDF2",false,["deriveKey"]);
       var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(V.s),iterations:V.n,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
       var url=new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:b64(V.i)},key,b64(V.c)));
-      if(!/^https:\/\/claude\.ai\//.test(url)) throw 0;
+      if(url!=="/ta-done/") throw 0;
       dlg.close(); window.location.href=url;
     }catch(x){
       err.textContent="That\u2019s not it. Try again.";pw.select();

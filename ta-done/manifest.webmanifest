@@ -1,0 +1,13 @@
+{
+  "name": "Ta-Done!",
+  "short_name": "Ta-Done!",
+  "start_url": "/ta-done/",
+  "scope": "/ta-done/",
+  "display": "standalone",
+  "background_color": "#EEF2F6",
+  "theme_color": "#15233B",
+  "icons": [
+    { "src": "/ta-done/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/ta-done/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
