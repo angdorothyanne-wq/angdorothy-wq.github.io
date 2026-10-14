@@ -10,7 +10,7 @@ I laid it out the way I'd introduce myself in person. It starts with what I can 
 
 ## How it's built
 
-Everything lives in one file, `index.html`. It's plain HTML, CSS and JavaScript, with no frameworks or build tools. Cloudflare Pages publishes it automatically whenever this repo changes.
+The homepage lives in `index.html`, and my portfolio lives in `portfolio/index.html`. It's plain HTML, CSS and JavaScript, with no frameworks or build tools. Cloudflare Pages publishes it automatically whenever this repo changes.
 
 ## Say hello
 
