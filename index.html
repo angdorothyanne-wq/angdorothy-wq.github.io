@@ -867,6 +867,19 @@ footer{font-size:14px;border-top-color:var(--line)}
 #setup .rd-gear{grid-column:2;grid-row:3 / span 2;margin:4px 0 0}
 #setup .rd-setup-open{grid-column:2;grid-row:5;justify-self:start;margin-top:24px}
 @media (max-width:900px){#setup .rd-setup-copy{grid-template-columns:1fr}#setup .rd-setup-copy{grid-template-rows:none}#setup .rd-gear,#setup .rd-setup-open,#setup .rd-setup-copy > p:not(.t-kicker){grid-column:1;grid-row:auto}#setup .rd-gear{margin:24px 0 0}}
+
+/* Tools I use: always visible, one box per group */
+.rd-also-wrap{grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.rd-also{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.rd-tools-panel .rd-muted{margin:0 0 20px}
+.rd-tools-panel .rd-toolkit{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.rd-tools-panel .rd-toolkit div{display:flex;flex-direction:column;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;min-width:0}
+.rd-tools-panel .rd-toolkit dt{font-size:17px;font-weight:600;letter-spacing:-.01em;padding-bottom:10px;border-bottom:2px solid var(--accent)}
+.rd-tools-panel .rd-toolkit dd{margin:0}
+.rd-tools-panel .rd-toolkit ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.rd-tools-panel .rd-toolkit li{font-size:15px;color:var(--ink-2)}
+@media (max-width:980px){.rd-tools-panel .rd-toolkit{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.rd-tools-panel .rd-toolkit{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -1010,11 +1023,10 @@ footer{font-size:14px;border-top-color:var(--line)}
           <h3 class="rd-h3">I can also help with</h3>
           <ul class="rd-also"><li><h3>SOPs and documentation</h3><p>This is one of my favorite things to build. I can create SOPs for your whole business and everyone in it, with clear process maps, checklists, templates and training guides, all organized in one place.</p></li><li><h3>Data analytics and dashboards</h3><p>I use SQL, Python and spreadsheets to dig into the numbers. Then I explain what I found in plain words, along with what I think we should do about it.</p></li><li><h3>Customer service and client communication</h3><p>Whether it&#x27;s by email, chat or phone, I always make sure customers feel heard and taken care of.</p></li><li><h3>Market research and feasibility studies</h3><p>Before you put money into something new, I&#x27;ll do the research so you can decide with real numbers instead of guesses.</p></li><li><h3>Workflow automation</h3><p>If you&#x27;re doing the same thing by hand over and over, I&#x27;ll set up a template, macro or automation for it. Less busywork for both of us.</p></li><li><h3>Websites</h3><p>Simple websites and landing pages, made with HTML, CSS and JavaScript.</p></li></ul>
         </div>
-        <div>
+        <div class="rd-tools-panel">
           <h3 class="rd-h3">Tools I use</h3>
           <p class="rd-muted">If you use something that&#x27;s not here, that&#x27;s okay. I learn new tools fast.</p>
-          <button class="rd-more rd-tools-btn" type="button" aria-expanded="false" aria-controls="toolsList"><span data-closed>See all tools I use</span><span data-open hidden>Hide tools</span><svg class="rd-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <dl class="rd-toolkit" id="toolsList" data-collapse><div><dt>CRM and support</dt><dd>Salesforce · Zoho CRM · HubSpot · Zendesk · Gorgias</dd></div><div><dt>Orders and inventory</dt><dd>Oracle NetSuite · Shopify · Zoho Inventory</dd></div><div><dt>Projects and notes</dt><dd>Notion · Obsidian · Asana · Trello</dd></div><div><dt>Communication and scheduling</dt><dd>Slack · Outlook · Gmail · Google Calendar · Calendly · Cal.com</dd></div><div><dt>Data and automation</dt><dd>SQL · Python · Google Sheets · Excel · Zapier</dd></div><div><dt>Web</dt><dd>HTML · CSS · JavaScript</dd></div><div><dt>Design</dt><dd>Canva · Figma · Basic Adobe Photoshop · Basic Adobe Illustrator</dd></div><div><dt>Everyday</dt><dd>Google Workspace · Microsoft Office · Claude · ChatGPT · Lovable</dd></div></dl>
+          <dl class="rd-toolkit" id="toolsList"><div><dt>CRM and support</dt><dd><ul><li>Salesforce</li><li>Zoho CRM</li><li>HubSpot</li><li>Zendesk</li><li>Gorgias</li></ul></dd></div><div><dt>Orders and inventory</dt><dd><ul><li>Oracle NetSuite</li><li>Shopify</li><li>Zoho Inventory</li></ul></dd></div><div><dt>Projects and notes</dt><dd><ul><li>Notion</li><li>Obsidian</li><li>Asana</li><li>Trello</li></ul></dd></div><div><dt>Communication and scheduling</dt><dd><ul><li>Slack</li><li>Outlook</li><li>Gmail</li><li>Google Calendar</li><li>Calendly</li><li>Cal.com</li></ul></dd></div><div><dt>Data and automation</dt><dd><ul><li>SQL</li><li>Python</li><li>Google Sheets</li><li>Excel</li><li>Zapier</li></ul></dd></div><div><dt>Web</dt><dd><ul><li>HTML</li><li>CSS</li><li>JavaScript</li></ul></dd></div><div><dt>Design</dt><dd><ul><li>Canva</li><li>Figma</li><li>Basic Adobe Photoshop</li><li>Basic Adobe Illustrator</li></ul></dd></div><div><dt>Everyday</dt><dd><ul><li>Google Workspace</li><li>Microsoft Office</li><li>Claude</li><li>ChatGPT</li><li>Lovable</li></ul></dd></div></dl>
         </div>
       </div>
     </div>
