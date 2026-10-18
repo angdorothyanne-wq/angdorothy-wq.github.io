@@ -14,7 +14,7 @@ It's a simple, editorial-style site written in plain HTML, CSS and JavaScript. T
 
 ## A note on AI
 
-I coded this site myself and agent helped me with a few other things like link preview settings and how the site behaves when you rotate your phone & across other devices. The idea, the words, the design direction and everything else coded here are mine.
+I coded this site myself but agent helped me with a few other things like link preview settings and how the site behaves when you rotate your phone & across other devices. The idea, the words, the design direction and everything else coded here are mine.
 
 I'm also building a Notion-style workspace for a future client. It's still in progress and isn't part of the public site.
 
