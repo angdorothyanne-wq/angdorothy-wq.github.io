@@ -1,8 +1,6 @@
 # Dorothy Ang
 
-This repo holds my personal website, [workwithdorothy.com](https://workwithdorothy.com).
-
-I'm a virtual assistant based in Davao de Oro, Philippines. I've spent more than nine years in banking, tech support, eCommerce and business operations. I investigated fraud and disputes at J.P. Morgan Chase, supported Wix and Lenovo customers at Accenture, handled claims for a U.S. furniture brand, and helped run our family business. I work with one client at a time, so the work gets my full attention.
+This repo holds my personal website [workwithdorothy.com](https://workwithdorothy.com).
 
 ## What's on the site
 
@@ -10,9 +8,11 @@ I laid it out the way I'd introduce myself in person. It starts with what I can 
 
 ## How it's built
 
-The homepage lives in `index.html`, and my portfolio lives in `portfolio/index.html`. It's plain HTML, CSS and JavaScript, with no frameworks or build tools. Cloudflare Pages publishes it automatically whenever this repo changes.
+The homepage lives in `index.html`, and my portfolio lives in `portfolio/index.html`. It's plain HTML, CSS and JavaScript. Cloudflare Pages publishes it automatically whenever this repo changes. This is a basic editorial-like website. 
 
-## Say hello
+## A note on AI
+
+Claude helped with a few complex details including preview settings and mobile orientation. The concept, content, design direction and everything else are mine. 
 
 If you're looking for a VA, or you just want to say hi, I'd love to hear from you.
 
