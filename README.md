@@ -14,9 +14,9 @@ It's a simple, editorial-style site written in plain HTML, CSS and JavaScript. T
 
 ## A note on AI
 
-Claude helped me with a few fiddly bits, like link preview settings and how the site behaves when you rotate your phone. The idea, the words, the design direction and everything else are mine.
+Claude helped me with a few fiddly bits like link preview settings and how the site behaves when you rotate your phone. The idea, the words, the design direction and everything else are mine.
 
-I'm also vibe coding a Notion-style workspace behind the scenes for my future client. It's still in progress and isn't part of the public site.
+I'm also vibe coding a Notion-style workspace for my future client. It's still in progress and isn't part of the public site.
 
 ## Say hi
 
