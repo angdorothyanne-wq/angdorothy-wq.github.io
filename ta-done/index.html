@@ -398,6 +398,12 @@ details summary{cursor:pointer;font-weight:700;color:var(--ink2);padding:6px 0}
 .appbar .name{font-family:var(--fd);font-size:1.25rem;letter-spacing:.01em;text-transform:uppercase}
 :root[data-font="friendly"] .appbar .name,:root[data-font="clean"] .appbar .name{text-transform:none;font-weight:800}
 .appbar .sp{flex:1}
+.syncslot:empty{display:none}
+.syncpill{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 12px;border-radius:999px;border:0;font:600 .82rem var(--fb);background:var(--soft);color:var(--ink2);white-space:nowrap}
+.syncpill .ico{width:16px;height:16px}
+.syncpill.off{background:var(--amber-bg);color:var(--amber)}
+.syncpill.err{background:var(--red-bg);color:var(--red);cursor:pointer}
+@media (max-width:560px){.syncpill{font-size:.75rem;padding:5px 10px}}
 .avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;background:var(--lime);color:var(--on-lime);display:grid;place-items:center;font-weight:800;border:0;padding:0;flex:none;font-size:1.05rem}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .avatar.lg{width:84px;height:84px;font-size:2rem}
@@ -745,10 +751,62 @@ a.btn{text-decoration:none;color:inherit}
   .act .btn.sm{min-height:30px;padding:3px 8px;font-size:.72rem}
   .streak{font-size:.65rem;padding:1px 6px}
 }
-.arrange-mob{display:none}
+.arrange-mob{display:flex;justify-content:center;margin-top:16px}
+/* The floating button only appears while arranging, as a quick Done. Otherwise it covered cards. */
+.fab:not(.on){display:none!important}
 .thm{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink2);display:grid;place-items:center;padding:0;flex:none;transition:transform .3s}
 .thm:hover{color:var(--ink);transform:rotate(-15deg)}
 .thm .ico{width:19px;height:19px}
+/* Settings: four groups, one showing at a time */
+.settabs{margin:4px 0 16px;flex-wrap:wrap;position:sticky;top:8px;z-index:5}
+.settabs .ico{width:16px;height:16px}
+@media (max-width:640px){.settabs{display:grid;grid-template-columns:1fr 1fr;border-radius:18px;position:static}.settabs button{justify-content:center;font-size:.82rem;padding:8px 6px;border-radius:14px}}
+.sgroups:not([data-on="you"]) .sgroup[data-g="you"],.sgroups:not([data-on="goals"]) .sgroup[data-g="goals"],.sgroups:not([data-on="layout"]) .sgroup[data-g="layout"],.sgroups:not([data-on="connect"]) .sgroup[data-g="connect"]{display:none}
+.sgroup + .sgroup{margin-top:18px}.sgroup:empty{display:none}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:center}
+.keys dd{margin:0}
+kbd{display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 8px;border-radius:8px;background:var(--card2);border:1px solid var(--line);border-bottom-width:2px;font:700 .85rem var(--fb);color:var(--ink)}
+@media (max-width:819px){.deskonly-p{display:none}}
+/* Timer bar */
+.tbarwrap{padding:10px}
+.tbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px}
+.tchip{display:flex;align-items:center;gap:8px;padding:8px;border-radius:16px;background:var(--card2);min-width:0;border:1.5px solid transparent}
+.tchip.running{border-color:var(--c0);background:color-mix(in srgb,var(--c0) 12%,var(--card))}
+.tchip .tplay{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:var(--c0);color:#fff;display:grid;place-items:center;cursor:pointer}
+.tchip .tplay svg{width:18px;height:18px}
+.tchip .tbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.tchip .tbody b{font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tchip .tbody .num{font-size:.78rem;color:var(--ink2);font-weight:600}
+.tchip.running .tbody .num{color:var(--ink)}
+.tprog{height:5px;border-radius:9px;background:color-mix(in srgb,var(--c0) 18%,transparent);overflow:hidden}
+.tprog span{display:block;height:100%;background:var(--c0);border-radius:9px}
+.tchip .tstop{flex:none;width:28px;height:28px;border-radius:10px;border:0;background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
+.tchip .tstop svg{width:14px;height:14px}
+/* Phone: all activities stay visible in one row, stacked small */
+@media (max-width:640px){.tbarwrap{padding:8px}.tbar{grid-template-columns:repeat(auto-fit,minmax(58px,1fr));gap:6px}.tchip{flex-direction:column;gap:4px;padding:8px 4px;text-align:center}.tchip .tbody{width:100%;align-items:center}.tchip .tbody b{font-size:.7rem;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.15;min-height:2.3em}.tchip .tbody .num{font-size:.68rem}.tprog{width:100%}}
+/* Pomodoro */
+.pomo{display:flex;flex-direction:column;gap:12px;border-top:5px solid var(--coral)}
+.pomo.ph-short,.pomo.ph-long{border-top-color:var(--teal)}
+.pomo-ph{flex-wrap:wrap}.pomo-ph button{font-size:.82rem}
+.pomo-clock{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.pomo-clock b{font-size:clamp(2.4rem,5vw,3.2rem);line-height:1;letter-spacing:-.02em}
+.pomo-bar{height:8px;border-radius:9px;background:var(--soft);overflow:hidden}
+.pomo-bar span{display:block;height:100%;background:var(--coral);border-radius:9px;transition:width .4s linear}
+.pomo.ph-short .pomo-bar span,.pomo.ph-long .pomo-bar span{background:var(--teal)}
+.pomo-ctl .btn svg{width:16px;height:16px}
+.pomo-set{display:grid;gap:12px;border-top:1px solid var(--line);padding-top:12px}
+.pomo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.pomo-grid .field{width:100%}
+.pomo-tg{display:grid;gap:6px}
+.focus{border-left:6px solid var(--lime);display:flex;flex-direction:column;gap:8px}
+.focus small{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.focus h2{font-size:1.35rem;line-height:1.25}
+.focus h2 .ttl{font:inherit;color:inherit;background:none;border:0;padding:0;text-align:left;cursor:pointer}
+.focus .row{margin-top:4px;align-items:center}
+.focus.am,.focus.pm{background:#15233B;color:#fff;border-left-color:#7EE2B8;border-color:#2A3A55}
+.focus.am small,.focus.pm small{color:#7EE2B8}
+.focus.am .btn.lime,.focus.pm .btn.lime{background:#7EE2B8;color:#0A3324}
+.focus .btn.on-dark{color:#fff}
 .wnbox{background:var(--card);border-radius:22px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow);border-left:6px solid var(--lime);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
 .wnbox > div:first-child{display:flex;flex-direction:column;gap:2px;flex:1 1 240px}
 .wnbox small{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
@@ -863,7 +921,7 @@ h3{font-weight:600}
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
 // Ta-Done! standalone runtime: gives the app its storage, Google tools, uploads and downloads
-// from this website's own backend (/api), instead of claude.ai.
+// from this website's own backend (/api), instead of the old hosted version.
 (function () {
   'use strict';
   const API = '/api';
@@ -898,57 +956,112 @@ h3{font-weight:600}
   }
 
   // ---------- Database: one private collection, synced across devices ----------
+  // Every change is kept on this device first (an "outbox"), then sent to the server.
+  // If the connection drops, changes wait on the device and send themselves when it's back,
+  // even after a reload. The last good copy of your data is kept on the device too, so
+  // Ta-Done! still opens with no connection.
+  const LS = {
+    get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
+    del(k) { try { localStorage.removeItem(k); } catch (e) { } },
+  };
+  const CACHE_KEY = 'tadone-cache-v1', OUTBOX_KEY = 'tadone-outbox-v1', ME_KEY = 'tadone-me-v1';
+  const transient = e => !e || e.code === 'unavailable' || e.code === 'server_unavailable' || e.code === 'internal';
   function makeDb() {
     const local = new Map();       // id -> data
     const ver = new Map();         // id -> server "updated" stamp we hold
-    const pending = new Map();     // id -> count of writes in flight
-    let cursor = 0, listeners = [], timer = null, started = false, lastOk = 0;
-    const snap = () => ({ docs: [...local.entries()].map(([id, data]) => ({ id, data: () => data })), metadata: { fromCache: false, hasPendingWrites: [...pending.values()].some(n => n > 0) } });
-    const emit = () => { const s = snap(); listeners.forEach(l => { try { l.cb(s); } catch (e) { console.error(e); } }); };
+    const outbox = new Map();      // id -> { data, n, failed }  changes not yet on the server
+    let cursor = 0, listeners = [], timer = null, started = false, served = false, lastOk = 0;
+    let flushing = false, flushTimer = null, backoff = 0, online = true, lastErr = null, cacheTimer = null, wseq = 0;
+    const cached = LS.get(CACHE_KEY);
+    if (cached && cached.docs) { for (const id in cached.docs) { local.set(id, cached.docs[id].data); ver.set(id, cached.docs[id].updated || 0); } cursor = cached.cursor || 0; }
+    const ob = LS.get(OUTBOX_KEY) || {};
+    for (const id in ob) { outbox.set(id, { data: ob[id].data, n: ++wseq, failed: false }); if (ob[id].data === null) local.delete(id); else local.set(id, ob[id].data); }
+    const saveOutbox = () => { const o = {}; outbox.forEach((v, id) => { o[id] = { data: v.data }; }); if (outbox.size) LS.set(OUTBOX_KEY, o); else LS.del(OUTBOX_KEY); };
+    const saveCache = () => { clearTimeout(cacheTimer); cacheTimer = setTimeout(() => { const docs = {}; local.forEach((data, id) => { docs[id] = { data, updated: ver.get(id) || 0 }; }); LS.set(CACHE_KEY, { docs, cursor, at: Date.now() }); }, 800); };
+    const status = () => ({ state: outbox.size ? ([...outbox.values()].some(v => v.failed) ? 'error' : online ? 'saving' : 'offline') : online ? 'saved' : 'offline', waiting: outbox.size, at: lastOk, error: lastErr });
+    const announce = () => window.dispatchEvent(new CustomEvent('tadone-sync', { detail: status() }));
+    const snap = fromCache => ({ docs: [...local.entries()].map(([id, data]) => ({ id, data: () => data })), metadata: { fromCache: !!fromCache, hasPendingWrites: outbox.size > 0 } });
+    const emit = fromCache => { const s = snap(fromCache); listeners.forEach(l => { try { l.cb(s); } catch (e) { console.error(e); } }); };
     async function poll() {
       clearTimeout(timer);
       try {
         const d = await call('/db/snap?since=' + cursor);
         let changed = false;
         for (const doc of d.docs) {
-          if ((pending.get(doc.id) || 0) > 0) continue;            // our own newer write is on its way
+          if (outbox.has(doc.id)) continue;                          // our own newer change is waiting to send
           if ((ver.get(doc.id) || 0) >= doc.updated) continue;       // already have it
           local.set(doc.id, doc.data); ver.set(doc.id, doc.updated); changed = true;
         }
         const live = new Set(d.ids);
-        for (const id of [...local.keys()]) if (!live.has(id) && !(pending.get(id) > 0)) { local.delete(id); ver.delete(id); changed = true; }
+        for (const id of [...local.keys()]) if (!live.has(id) && !outbox.has(id)) { local.delete(id); ver.delete(id); changed = true; }
         cursor = d.cursor; lastOk = Date.now();
-        if (changed || !started) { started = true; emit(); }
-        window.dispatchEvent(new CustomEvent('tadone-sync', { detail: { ok: true, at: lastOk } }));
+        const wasOff = !online; online = true;
+        if (changed || !started) { started = true; served = true; emit(false); }
+        if (changed) saveCache();
+        if (wasOff || outbox.size) { backoff = 0; flush(); }
+        announce();
       } catch (e) {
         if (e && e.code === 'signed_out') return;
-        if (!started) listeners.forEach(l => l.err && l.err(e));
-        window.dispatchEvent(new CustomEvent('tadone-sync', { detail: { ok: false, at: lastOk } }));
+        if (transient(e)) online = false;
+        if (!started && !served) listeners.forEach(l => l.err && l.err(e));
+        announce();
       }
-      timer = setTimeout(poll, document.hidden ? 60000 : 4000);
+      timer = setTimeout(poll, document.hidden ? 60000 : online ? 4000 : 8000);
     }
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && started) poll(); });
-    window.addEventListener('online', () => started && poll());
-    async function write(id, data) {
-      pending.set(id, (pending.get(id) || 0) + 1);
-      if (data === null) local.delete(id); else local.set(id, data);
-      emit();
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && (started || served)) poll(); });
+    window.addEventListener('online', () => { if (started || served) { backoff = 0; poll(); } });
+    window.addEventListener('offline', () => { online = false; announce(); });
+    // Send waiting changes one by one, oldest first. Stops at the first connection problem and tries again later.
+    async function flush(force) {
+      if (flushing) return; clearTimeout(flushTimer);
+      flushing = true; announce();
       try {
-        const r = data === null ? await call('/db/doc/' + encodeURIComponent(id), { method: 'DELETE' })
-          : await call('/db/doc/' + encodeURIComponent(id), { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ data }) });
-        if (data !== null) ver.set(id, r.updated); else ver.delete(id);
-      } finally { pending.set(id, pending.get(id) - 1); }
+        for (const [id, item] of [...outbox.entries()].sort((a, b) => a[1].n - b[1].n)) {
+          if (item.failed && !force) continue;
+          try {
+            const r = item.data === null ? await call('/db/doc/' + encodeURIComponent(id), { method: 'DELETE' })
+              : await call('/db/doc/' + encodeURIComponent(id), { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ data: item.data }) });
+            const cur = outbox.get(id);
+            if (cur && cur.n === item.n) { outbox.delete(id); if (item.data === null) ver.delete(id); else ver.set(id, r.updated); }
+            online = true; lastErr = null; saveOutbox(); saveCache();
+          } catch (e) {
+            if (e && e.code === 'signed_out') break;
+            if (transient(e)) { online = false; lastErr = null; backoff = Math.min((backoff || 1000) * 2, 60000); flushTimer = setTimeout(flush, backoff); break; }
+            item.failed = true; lastErr = e;
+          }
+        }
+      } finally { flushing = false; announce(); }
+      // Something changed while we were sending: send that too.
+      if (online && [...outbox.values()].some(v => !v.failed)) setTimeout(flush, 50);
+    }
+    function write(id, data) {
+      const item = { data, n: ++wseq, failed: false };
+      outbox.set(id, item); saveOutbox();
+      if (data === null) local.delete(id); else local.set(id, data);
+      emit(false); saveCache(); announce();
+      flush();
+      return Promise.resolve();   // the change is safe on this device; sending happens in the background
     }
     return {
       collection() {
         return {
           doc: id => ({ set: data => write(id, JSON.parse(JSON.stringify(data))), delete: () => write(id, null) }),
-          onSnapshot(cb, err) { const l = { cb, err }; listeners.push(l); if (!started) poll(); else cb(snap()); return () => { listeners = listeners.filter(x => x !== l); }; },
+          onSnapshot(cb, err) {
+            const l = { cb, err }; listeners.push(l);
+            if (!served && cached && cached.docs && Object.keys(cached.docs).length) { served = true; setTimeout(() => cb(snap(true)), 0); }
+            else if (started || served) cb(snap(!started));
+            if (!started) poll();
+            return () => { listeners = listeners.filter(x => x !== l); };
+          },
         };
       },
       refresh: poll,
+      retry() { backoff = 0; outbox.forEach(v => { v.failed = false; }); lastErr = null; flush(true); poll(); },
+      status,
     };
   }
+  function forgetDevice() { LS.del(CACHE_KEY); LS.del(OUTBOX_KEY); LS.del(ME_KEY); }
 
   // ---------- Tools (Google + weather), with simple caching and live refresh ----------
   function makeMcp() {
@@ -994,8 +1107,13 @@ h3{font-weight:600}
   };
 
   let me = null, mePromise = null, dbInst = null, mcpInst = null;
-  const whoAmI = () => mePromise || (mePromise = call('/auth/me').then(d => (me = d)).catch(e => { if (e && e.code === 'signed_out') return signedOut(); throw e; }));
-  window.TADONE = { me: () => me, whoAmI, call, refresh: () => dbInst && dbInst.refresh() };
+  // Who's signed in. With no connection, use the last known answer so the app still opens.
+  const whoAmI = () => mePromise || (mePromise = call('/auth/me').then(d => { me = d; LS.set(ME_KEY, d); return d; }).catch(e => {
+    if (e && e.code === 'signed_out') return signedOut();
+    const last = LS.get(ME_KEY); if (last && transient(e)) { me = last; return last; }
+    mePromise = null; throw e;
+  }));
+  window.TADONE = { me: () => me, whoAmI, call, refresh: () => dbInst && dbInst.refresh(), retry: () => dbInst && dbInst.retry(), sync: () => dbInst ? dbInst.status() : { state: 'saved', waiting: 0 }, forgetDevice };
   window.claude = {
     async use(name) {
       await whoAmI();
@@ -1054,6 +1172,8 @@ const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
 
 // ---------- Icons ----------
 const P = {
+  alert: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5M12 16v.01"/>',
+  cloudoff: '<path d="M3 3l18 18M8.5 6.4A6 6 0 0 1 17.6 10 4 4 0 0 1 20 16.9M17 18H7a4.5 4.5 0 0 1-1.6-8.7"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>',
   tasks: '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M8 12.2l2.8 2.8L16.5 9.3"/>',
   clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
@@ -1134,11 +1254,12 @@ const DEFAULT_JTYPES = [
   { k: 'did', l: "Today's recap", ic: 'book', c: '#13A26B', p: 'Your diary for today: what happened, who you saw, how it felt, and one moment you want to remember. Tip: tap "Fill from today" to start with your logged activity.' },
   { k: 'learn', l: 'Lessons and growth', ic: 'cap', c: '#3D7BFF', p: 'What did you learn today? What would you do differently next time, and what is one small next step?' },
   { k: 'grateful', l: 'Gratitude', ic: 'heart', c: '#F0457A', p: 'Three things you are grateful for today, big or small.' },
-  { k: 'wins', l: 'Wins', ic: 'star', c: '#FF7A1A', p: 'What went right? Tiny wins count: replied to an email, drank water, showed up.' },
+  { k: 'wins', l: 'Wins and gratitude', ic: 'star', c: '#FF7A1A', p: 'What went right, and what are you grateful for? Tiny things count: replied to an email, drank water, showed up.' },
   { k: 'idea', l: 'Ideas', ic: 'bulb', c: '#D99A00', p: 'Write the idea down before it disappears. What is it, and why is it interesting?' },
   { k: 'note', l: 'Notes', ic: 'note', c: '#7C74B8', p: 'Anything you want to remember.' },
   { k: 'dream', l: 'Dream log', ic: 'moon', c: '#2E2A6B', p: 'What did you dream? Who was there, where were you, and how did it feel when you woke up?' }
 ];
+const JT_TUCKED = ['learn', 'grateful', 'note', 'dream'];
 const SUGGESTED_JTYPES = [
   { k: 'brain', l: 'Brain dump', ic: 'sparkle', c: '#9B5DE5', p: 'Empty your head: worries, to-dos, random thoughts. No order needed.' },
   { k: 'interview', l: 'Interview prep', ic: 'briefcase', c: '#3A7BD5', p: 'Questions you practiced, answers that worked, and what to polish next.' },
@@ -1157,8 +1278,10 @@ const jtype = k => jtypesAll().find(t => t.k === k) || jtypesAll().find(t => t.k
 const FLAME = (sz, dim) => `<svg class="flame" viewBox="0 0 24 24" width="${sz}" height="${sz}" aria-hidden="true"><path d="M12 22c-4.4 0-7.5-3-7.5-7 0-4.3 3.4-6.6 4-11 2.9 2 4 4.2 4.2 6.2 1-.9 1.7-2.3 1.8-3.8 2.6 2.1 5 5.3 5 8.6 0 4-3.1 7-7.5 7z" fill="${dim ? 'var(--ink3)' : '#FF7A1A'}"/><path d="M12 21c-2.2 0-3.8-1.5-3.8-3.6 0-2.2 1.7-3.4 2.4-5.4 1.3 1 2 2.2 2.1 3.3.6-.4 1-1.1 1.1-1.9 1.3 1 2 2.5 2 4 0 2.1-1.6 3.6-3.8 3.6z" fill="${dim ? 'var(--card)' : '#FFC93C'}"/></svg>`;
 const NAV_ITEMS = [['today', 'sun', 'Today'], ['tasks', 'tasks', 'Tasks'], ['calendar', 'calendar', 'Calendar'], ['journal', 'pen', 'Journal'], ['me', 'smile', 'Mood'], ['time', 'clock', 'Time'], ['jobs', 'briefcase', 'Jobs'], ['review', 'chart', 'Review']];
 const navInfo = id => NAV_ITEMS.find(n => n[0] === id);
-const DEFAULT_DASH = [['timers', 'full'], ['plan', 'full'], ['gcal', 'half'], ['streak', 'half'], ['overview', 'half'], ['mood', 'half'], ['tasks', 'half'], ['capture', 'half'], ['journal', 'half'], ['dreview', 'half'], ['cycle', 'half'], ['week', 'full']];
-const WIDGET_NAMES = { timers: 'Activity timers', plan: 'Morning plan', gcal: "Today's schedule", streak: 'Streak', overview: 'Task overview', mood: 'Mood check-in', tasks: "Today's tasks", capture: 'Quick capture', journal: 'Journal', dreview: 'Daily review', cycle: 'Cycle', week: 'This week' };
+const DEFAULT_DASH = [['pomo', 'half'], ['timers', 'full'], ['focus', 'full'], ['tasks', 'half'], ['gcal', 'half'], ['capture', 'half'], ['mood', 'half'], ['streak', 'half'], ['cycle', 'half'], ['week', 'full'], ['plan', 'full'], ['dreview', 'half'], ['overview', 'half'], ['journal', 'half']];
+// Cards that start hidden. They stay one tap away under "Hidden cards" when you arrange the dashboard.
+const DASH_OFF = ['plan', 'dreview', 'overview', 'journal'];
+const WIDGET_NAMES = { timers: 'Activity timers', pomo: 'Pomodoro', focus: 'Start here', plan: 'Morning plan', gcal: "Today's schedule", streak: 'Streak', overview: 'Task overview', mood: 'Mood check-in', tasks: "Today's tasks", capture: 'Quick capture', journal: 'Journal', dreview: 'Daily review', cycle: 'Cycle', week: 'This week' };
 const FLOWS = [['spotting', 'Spotting'], ['light', 'Light'], ['medium', 'Medium'], ['heavy', 'Heavy']];
 const SYMPTOMS = ['Cramps', 'Headache', 'Bloating', 'Tender breasts', 'Acne', 'Back pain', 'Fatigue', 'Cravings', 'Mood swings', 'Nausea', 'Trouble sleeping'];
 
@@ -1177,7 +1300,7 @@ const priv = () => workMode;
 const PRIVATE_WIDGETS = ['cycle', 'journal'];
 const PRIVATE_NAV = ['me', 'journal'];
 // Phone order: what you need first sits on top.
-const PHONE_ORDER = { timers: 1, plan: 2, tasks: 3, gcal: 4, capture: 5, dreview: 6, overview: 7, streak: 8, week: 9, journal: 10, mood: 11, cycle: 12 };
+const PHONE_ORDER = { focus: 1, timers: 2, plan: 2, tasks: 3, pomo: 4, gcal: 5, mood: 6, capture: 7, streak: 8, week: 9, cycle: 10, dreview: 11, overview: 12, journal: 13 };
 
 function migrate(s) {
   s.activities = s.activities || []; s.tasks = s.tasks || []; s.inbox = s.inbox || []; s.apps = s.apps || [];
@@ -1189,9 +1312,13 @@ function migrate(s) {
   s.dailyReviews = s.dailyReviews || {};
   s.dailyPlans = s.dailyPlans || {};
   if (!Array.isArray(s.jtypes)) s.jtypes = clone(DEFAULT_JTYPES);
-  else { const old = { journal: 'Daily journal', did: 'What I did today', learn: 'Improve and learn', grateful: 'Grateful for', idea: 'Idea', note: 'Note' }; s.jtypes.forEach(t => { const d = DEFAULT_JTYPES.find(x => x.k === t.k); if (d && old[t.k] === t.l) { t.l = d.l; t.p = d.p; } }); }
-  if (!Array.isArray(s.settings.dash)) s.settings.dash = DEFAULT_DASH.map(([id, size]) => ({ id, on: true, size }));
-  DEFAULT_DASH.forEach(([id, size]) => { if (!s.settings.dash.some(w => w.id === id)) s.settings.dash.push({ id, on: true, size }); });
+  else { const old = { journal: 'Daily journal', did: 'What I did today', learn: 'Improve and learn', grateful: 'Grateful for', idea: 'Idea', note: 'Note', wins: 'Wins' }; s.jtypes.forEach(t => { const d = DEFAULT_JTYPES.find(x => x.k === t.k); if (d && old[t.k] === t.l) { t.l = d.l; t.p = d.p; } }); }
+  // Journal: four categories show by default. The rest are hidden, not deleted: their entries stay,
+  // and Journal > Categories brings any of them back.
+  if (!s.settings.jtLogs) { s.settings.jtLogs = true; ['books', 'podcast'].forEach(k => { const t = s.jtypes.find(x => x.k === k); if (t) t.hidden = false; else s.jtypes.push(clone(SUGGESTED_JTYPES.find(x => x.k === k))); }); }
+  if (!s.settings.jtTight) { s.settings.jtTight = true; s.jtypes.forEach(t => { if (JT_TUCKED.includes(t.k)) t.hidden = true; }); }
+  if (!Array.isArray(s.settings.dash)) s.settings.dash = DEFAULT_DASH.map(([id, size]) => ({ id, on: !DASH_OFF.includes(id), size }));
+  DEFAULT_DASH.forEach(([id, size]) => { if (!s.settings.dash.some(w => w.id === id)) s.settings.dash.push({ id, on: !DASH_OFF.includes(id), size }); });
   if (!s.settings.appName) s.settings.appName = 'Ta-Done!';
   if (!s.settings.tz || !s.settings.tzReverted) { s.settings.tz = 'auto'; s.settings.tzReverted = true; }
   if (!Array.isArray(s.settings.clients)) s.settings.clients = [];
@@ -1405,6 +1532,7 @@ function renderView() {
 
 // ---------- Activity cards ----------
 function cardHTML(a, now) {
+  if (timerBar()) return chipHTML(a, now);
   const k = today();
   const ms = dayMs(a.id, k, now), goal = (a.goal || 0) * 60000, rest = isRest(k);
   const p = goal ? Math.min(1, ms / goal) : 0, C = 2 * Math.PI * 52;
@@ -1450,10 +1578,10 @@ function dueChip(t) {
   return `<span class="chip">Due ${esc(shortDay(t.due))}${esc(tm)}</span>`;
 }
 function infoHTML(t) {
-  const rows = [['Logged', `${shortDay(dayKey(t.createdAt))} at ${hm(t.createdAt)}`], ['Due', t.due ? shortDay(t.due) + (t.dueTime ? ' at ' + t12(t.dueTime) : '') : 'No due date']];
+  const rows = [['Added', `${shortDay(dayKey(t.createdAt))} at ${hm(t.createdAt)}`], ['Due', t.due ? shortDay(t.due) + (t.dueTime ? ' at ' + t12(t.dueTime) : '') : 'No due date']];
   if (t.moves.length) rows.push(['Moved', `${plural(t.moves.length, 'time')}, last on ${dateOnly(dayKey(t.moves[t.moves.length - 1].at))}`]);
   if (t.done && t.doneAt) rows.push(['Done', `${shortDay(dayKey(t.doneAt))} at ${hm(t.doneAt)}`]);
-  return `<details class="tinfo"><summary>Logged ${esc(dayKey(t.createdAt) === today() ? 'today' : dateOnly(dayKey(t.createdAt)))}</summary><dl>${rows.map(([a, b]) => `<dt>${a}</dt><dd>${esc(b)}</dd>`).join('')}</dl></details>`;
+  return `<details class="tinfo"><summary>Added ${esc(dayKey(t.createdAt) === today() ? 'today' : dateOnly(dayKey(t.createdAt)))}</summary><dl>${rows.map(([a, b]) => `<dt>${a}</dt><dd>${esc(b)}</dd>`).join('')}</dl></details>`;
 }
 function taskRow(t, opts) {
   opts = opts || {};
@@ -1483,7 +1611,7 @@ function taskRow(t, opts) {
 }
 function editorHTML(t) {
   const acts = activeActs(), k = today();
-  const hist = [`Logged ${esc(shortDay(dayKey(t.createdAt)))} at ${esc(hm(t.createdAt))}`]
+  const hist = [`Added ${esc(shortDay(dayKey(t.createdAt)))} at ${esc(hm(t.createdAt))}`]
     .concat(t.moves.map(m => `Moved ${m.from ? 'from ' + esc(dateOnly(m.from)) : ''} to ${m.to ? esc(dateOnly(m.to)) : 'someday'} on ${esc(dateOnly(dayKey(m.at)))}`))
     .concat(t.done && t.doneAt ? [`Done ${esc(shortDay(dayKey(t.doneAt)))} at ${esc(hm(t.doneAt))}`] : []);
   const stuck = !t.done && t.moves.length >= 3;
@@ -1527,6 +1655,7 @@ function viewTasks() {
     <h2 style="margin-bottom:10px">Add a task</h2>
     <form data-form="task-add" style="display:grid;gap:10px">
       <div><label class="lbl" for="tnew">Task</label><input id="tnew" class="field" style="width:100%" placeholder="What needs doing?" autocomplete="off"></div>
+      <div><label class="lbl" for="tnote">Note (optional)</label><textarea id="tnote" class="field" rows="2" style="width:100%" placeholder="Links, details, anything to remember"></textarea></div>
       <div><label class="lbl" for="tstep">First tiny step (optional)</label><input id="tstep" class="field" style="width:100%" placeholder="Something you can do in 2 minutes, like 'open the doc'" autocomplete="off"></div>
       <div class="row" style="align-items:flex-end">
         <div style="flex:1 1 130px"><label class="lbl" for="tdue">Due date</label><input id="tdue" type="date" class="field" style="width:100%" value="${today()}"></div>
@@ -1553,7 +1682,7 @@ function taskLogHTML() {
   return `<section class="panel"><div class="row" style="justify-content:space-between;margin-bottom:12px">
       ${segBtns('log-status', [['all', 'All'], ['open', 'Open'], ['done', 'Done']], logStatus)}
       ${segBtns('log-range', [['week', 'This week'], ['month', 'This month'], ['all', 'All time']], logRange)}</div>
-    ${rows.length ? `<div class="scroll"><table class="tlog"><thead><tr><th>Task</th><th>Logged</th><th>Due</th><th>Done</th><th>Moved</th></tr></thead><tbody>
+    ${rows.length ? `<div class="scroll"><table class="tlog"><thead><tr><th>Task</th><th>Added</th><th>Due</th><th>Done</th><th>Moved</th></tr></thead><tbody>
       ${rows.map(t => { const dl2 = doneLabel(t); return `<tr><td class="t">${esc(t.title)}</td>
         <td>${esc(dateOnly(dayKey(t.createdAt)))}<br><span class="muted small">${esc(hm(t.createdAt))}</span></td>
         <td>${t.due ? esc(dateOnly(t.due)) + (t.dueTime ? `<br><span class="muted small">${esc(t12(t.dueTime))}</span>` : '') : '<span class="muted">None</span>'}</td>
@@ -1688,12 +1817,27 @@ function viewWeeklyReview(seg) {
     </div></section>`;
 }
 
+function deviceSyncHTML() {
+  const st = TADONE.sync(), ago = st.at ? Math.round((Date.now() - st.at) / 60000) : null;
+  const line = st.state === 'error' ? `<b style="color:var(--red)">A change didn't save.</b> It's still kept on this device.`
+    : st.state === 'offline' ? `<b>Offline.</b> ${st.waiting ? plural(st.waiting, 'change') + ' kept on this device will save when you\'re back online.' : 'Everything up to now is saved.'}`
+    : st.waiting ? 'Saving your latest changes…' : '<b>Everything is saved.</b>';
+  return `<section class="panel" id="devsync"><h2 style="margin-bottom:6px">This device</h2>
+    <p class="small" style="margin-bottom:6px">${line}</p>
+    <p class="muted small" style="margin-bottom:10px">${ago === null ? 'Not synced yet on this device.' : ago < 1 ? 'Last synced just now.' : 'Last synced ' + plural(ago, 'minute') + ' ago.'} Ta-Done! keeps a copy here so it opens even with no connection.</p>
+    <button class="btn sm" data-act="sync-retry">Sync now</button></section>`;
+}
+const SET_TABS = [['you', 'smile', 'You and look'], ['goals', 'clock', 'Activities and goals'], ['layout', 'grid', 'Dashboard and menu'], ['connect', 'calendar', 'Google and backup']];
+let setTab = 'you'; try { setTab = localStorage.getItem('tadone-settab') || 'you'; } catch (e) { }
+if (!SET_TABS.some(t => t[0] === setTab)) setTab = 'you';
 function viewSettings() {
   const acts = S.activities.filter(a => !a.archived), arch = S.activities.filter(a => a.archived);
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   return `
   ${appbar()}<header class="hello"><div><h1>Settings</h1><p class="sub">Days reset at 12:00 am ${esc(tzLabel())}.</p></div></header>
-  <section class="panel"><h2 style="margin-bottom:14px">Profile</h2>
+  <div class="seg settabs" role="tablist" aria-label="Settings sections">${SET_TABS.map(([g, ic, l]) => `<button role="tab" data-act="set-tab" data-v="${g}" aria-selected="${setTab === g}" aria-pressed="${setTab === g}">${svg(ic)}${l}</button>`).join('')}</div>
+  <div class="sgroups" data-on="${setTab}">
+  <div class="sgroup" data-g="you"><section class="panel"><h2 style="margin-bottom:14px">Profile</h2>
     <div>
       <div class="uprow">${avatarHTML(true)}<div style="display:grid;gap:8px"><span class="lbl" style="margin:0">Profile photo</span><span class="muted small">Shows at the top of your menu.</span>
         <div class="row"><span class="btn sm filebtn">${svg('image')}Upload photo<input type="file" accept="image/*" data-ch="up-avatar" aria-label="Upload profile photo"></span>${S.settings.avatar ? '<button class="btn sm ghost" data-act="rm-img" data-v="avatar">Remove</button>' : ''}</div></div></div>
@@ -1701,12 +1845,12 @@ function viewSettings() {
     <p class="muted small" style="margin:10px 0 14px">Your photo is cropped to a circle.${assetsNs ? '' : ''}</p>
     <div class="row"><div style="flex:1 1 200px"><label class="lbl" for="sname">Your name</label><input id="sname" class="field" style="width:100%" data-ch="name" value="${esc(S.settings.name || '')}"></div>
       <div style="flex:1 1 200px"><label class="lbl" for="sapp">Dashboard name</label><input id="sapp" class="field" style="width:100%" data-ch="appname" value="${esc(S.settings.appName || 'Ta-Done!')}"></div></div></section>
-  <section class="panel"><h2 style="margin-bottom:10px">Appearance</h2>
+  </div><div class="sgroup" data-g="you"><section class="panel"><h2 style="margin-bottom:10px">Appearance</h2>
     <div style="display:grid;gap:14px">
       <div><span class="lbl">Theme (this device)</span><div class="seg" role="group" aria-label="Theme">${[['auto', 'Match device'], ['light', 'Light'], ['dark', 'Dark']].map(([v, l]) => `<button data-act="theme" data-v="${v}" aria-pressed="${themePref === v}">${l}</button>`).join('')}</div></div>
       <div><span class="lbl">Font</span><div class="seg" role="group" aria-label="Font">${FONTS.map(([v, l, f]) => `<button data-act="font" data-v="${v}" aria-pressed="${S.settings.uiFont === v}"><span class="fontprev" style="--pf:${f}">${l}</span></button>`).join('')}</div></div>
     </div></section>
-  <section class="panel"><div class="sec-head"><h2>Activities and daily goals</h2><button class="btn sm primary" data-act="act-add">Add activity</button></div>
+  </div><div class="sgroup" data-g="goals"><section class="panel"><div class="sec-head"><h2>Activities and daily goals</h2><button class="btn sm primary" data-act="act-add">Add activity</button></div>
     <p class="muted small">Goals are targets, not limits. The timer keeps going and counts bonus time.</p>
     ${acts.map((a, i) => `<div class="actrow" style="--c0:${esc(a.color)}">
       <div><label class="lbl" for="n-${a.id}">Name</label><input id="n-${a.id}" class="field" data-ch="act-name" data-id="${esc(a.id)}" value="${esc(a.name)}"></div>
@@ -1719,15 +1863,15 @@ function viewSettings() {
         <button class="btn sm" data-act="act-archive" data-id="${esc(a.id)}">Archive</button></div></div>`).join('')}
     ${arch.length ? `<details style="margin-top:10px"><summary>Archived (${arch.length})</summary>${arch.map(a => `<div class="row" style="justify-content:space-between;padding:8px 0"><span class="row" style="--c0:${esc(a.color)}">${badge(a, true)}${esc(a.name)}</span><button class="btn sm" data-act="act-unarchive" data-id="${esc(a.id)}">Bring back</button></div>`).join('')}<p class="muted small">Archived activities keep all their past logs.</p></details>` : ''}
   </section>
-  <section class="panel"><h2 style="margin-bottom:6px">Time zone</h2>
+  </div><div class="sgroup" data-g="you"><section class="panel"><h2 style="margin-bottom:6px">Time zone</h2>
     <p class="muted small" style="margin-bottom:10px">Your day, streaks, and timers reset at 12:00 am in this time zone. By default it follows your device, so it updates when you travel.</p>
     ${tzPickerHTML()}
     <h3 style="margin:18px 0 4px">Client clocks</h3><p class="muted small" style="margin-bottom:10px">Add your clients' countries to see their local time next to the date. This doesn't change your own day.</p>
     ${clientPickerHTML()}</section>
-  ${gsyncSettingsHTML()}
-  ${weatherSettingsHTML()}
-  ${calSettingsHTML()}
-  <section class="panel"><div class="sec-head"><h2>Dashboard</h2><button class="btn sm" data-act="dash-edit-go">Arrange cards</button></div>
+  </div><div class="sgroup" data-g="connect">${gsyncSettingsHTML()}
+  </div><div class="sgroup" data-g="you">${weatherSettingsHTML()}
+  </div><div class="sgroup" data-g="connect">${calSettingsHTML()}
+  </div><div class="sgroup" data-g="layout"><section class="panel"><div class="sec-head"><h2>Dashboard</h2><button class="btn sm" data-act="dash-edit-go">Arrange cards</button></div>
     <p class="muted small" style="margin-bottom:6px">Choose which cards show on your dashboard. Shown cards that you turn back on are added at the bottom.</p>
     ${(ensureBoard(), S.settings.dash.filter(w => WIDGET_NAMES[w.id])).map(w => `<div class="dsrow${w.on ? '' : ' off'}"><b>${esc(WIDGET_NAMES[w.id])}</b>
       <button class="btn sm ${w.on ? '' : 'ghost'}" data-act="${w.on ? 'dash-hide' : 'dash-show'}" data-id="${w.id}">${svg(w.on ? 'eye' : 'eyeoff')}${w.on ? 'Shown' : 'Hidden'}</button></div>`).join('')}
@@ -1737,32 +1881,41 @@ function viewSettings() {
       <button class="btn sm ${workMode ? 'lime' : ''}" data-act="work-mode" aria-pressed="${workMode}">${workMode ? 'On' : 'Off'}</button></div>
     <div class="row" style="margin-top:12px"><button class="btn sm ghost" data-act="dash-reset">Reset dashboard layout</button></div>
   </section>
-  <section class="panel"><h2 style="margin-bottom:6px">Menu bar</h2>
+  </div><div class="sgroup" data-g="layout"><section class="panel"><h2 style="margin-bottom:6px">Activity timers</h2>
+    <p class="muted small" style="margin-bottom:10px">Show your timers as one slim bar, or as big cards with rings.</p>
+    <div class="seg" role="group" aria-label="Timer style">${[['bar', 'One bar'], ['cards', 'Big cards']].map(([v, l]) => `<button data-act="timer-style" data-v="${v}" aria-pressed="${(S.settings.timerStyle || 'bar') === v}">${l}</button>`).join('')}</div></section>
+  </div><div class="sgroup" data-g="goals"><section class="panel"><h2 style="margin-bottom:6px">Pomodoro</h2>${pomoSettingsHTML()}</section>
+  </div><div class="sgroup" data-g="layout"><section class="panel"><h2 style="margin-bottom:6px">Menu bar</h2>
     <p class="muted small" style="margin-bottom:8px">Reorder or hide pages. On your phone, the first 4 visible pages sit in the bottom bar and the rest live under More.</p>
     ${S.settings.nav.map((x, i) => { const [id, ic, l] = navInfo(x.id); return `<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line);${x.on ? '' : 'opacity:.55'}"><span class="badge sm" style="--c0:#2F5BEA">${svg(ic)}</span><b style="flex:1">${l}</b>
       ${x.on && S.settings.nav.filter(n => n.on).indexOf(x) < 4 ? '<span class="chip lime">Phone bar</span>' : ''}
       <button class="btn sm icon ghost" data-act="nav-move" data-id="${id}" data-v="-1" ${i === 0 ? 'disabled' : ''} aria-label="Move ${l} up">↑</button><button class="btn sm icon ghost" data-act="nav-move" data-id="${id}" data-v="1" ${i === S.settings.nav.length - 1 ? 'disabled' : ''} aria-label="Move ${l} down">↓</button>
       <button class="btn sm" data-act="nav-hide" data-id="${id}">${svg(x.on ? 'eye' : 'eyeoff')}${x.on ? 'Shown' : 'Hidden'}</button></div>`; }).join('')}
   </section>
-  <section class="panel"><h2 style="margin-bottom:6px">Typing shortcuts</h2>
+  </div><div class="sgroup" data-g="layout"><section class="panel deskonly-p"><h2 style="margin-bottom:6px">Keyboard shortcuts</h2>
+    <p class="muted small" style="margin-bottom:8px">On a computer, press these keys anywhere except while typing in a box.</p>
+    <dl class="keys">${KEYS.map(([a, b]) => `<dt><kbd>${esc(a)}</kbd></dt><dd>${esc(b)}</dd>`).join('')}</dl></section>
+  </div><div class="sgroup" data-g="layout"><section class="panel"><h2 style="margin-bottom:6px">Typing shortcuts</h2>
     <div class="row" style="justify-content:space-between"><p class="muted small" style="flex:1 1 260px">When on, typing words like "tomorrow", "3pm", or "!urgent" in a task sets the date, time, or priority for you. Off by default so tasks save exactly as you type them.</p>
     <button class="btn sm ${S.settings.smartAdd ? 'lime' : ''}" data-act="smart-add" aria-pressed="${!!S.settings.smartAdd}">${S.settings.smartAdd ? 'On' : 'Off'}</button></div></section>
-  <section class="panel"><h2 style="margin-bottom:6px">Rest days</h2>
+  </div><div class="sgroup" data-g="goals"><section class="panel"><h2 style="margin-bottom:6px">Rest days</h2>
     <p class="muted small" style="margin-bottom:10px">Rest days don't count against goals, weekly targets, or streaks. You can also mark any single day from the Today page.</p>
     <div class="row" style="margin-bottom:12px"><button class="btn sm ${isRest(today()) && !(S.settings.weeklyRest || []).includes(dow(today())) ? 'lime' : ''}" data-act="rest-today" ${(S.settings.weeklyRest || []).includes(dow(today())) ? 'disabled' : ''}>${svg('moon')}${isRest(today()) ? (S.settings.weeklyRest || []).includes(dow(today())) ? 'Today is a weekly rest day' : 'Today is a rest day (tap to undo)' : 'Make today a rest day'}</button></div>
     <div class="seg" role="group" aria-label="Weekly rest days">${[1, 2, 3, 4, 5, 6, 0].map(d => `<button data-act="rest-dow" data-v="${d}" aria-pressed="${(S.settings.weeklyRest || []).includes(d)}">${days[d]}</button>`).join('')}</div></section>
-  <section class="panel"><h2 style="margin-bottom:6px">Goal celebration</h2>
+  </div><div class="sgroup" data-g="goals"><section class="panel"><h2 style="margin-bottom:6px">Goal celebration</h2>
     <div class="row" style="justify-content:space-between"><p class="muted small" style="flex:1 1 260px">Play a soft chime and a little confetti when a running timer reaches its daily goal. The timer keeps going.</p>
     <span class="row"><button class="btn sm ghost" data-act="chime-test">Test it</button><button class="btn sm ${S.settings.chime !== false ? 'lime' : ''}" data-act="chime-toggle" aria-pressed="${S.settings.chime !== false}">${S.settings.chime !== false ? 'On' : 'Off'}</button></span></div></section>
-  <section class="panel"><h2 style="margin-bottom:6px">Long sessions</h2>
+  </div><div class="sgroup" data-g="goals"><section class="panel"><h2 style="margin-bottom:6px">Long sessions</h2>
     <div class="row"><label for="lr">Ask if I forgot to stop a timer after</label><select id="lr" class="field" style="flex:0 0 auto" data-ch="longrun">${[1, 2, 3, 4, 6].map(h => `<option value="${h}" ${(S.settings.longRunHours || 3) === h ? 'selected' : ''}>${plural(h, 'hour')}</option>`).join('')}</select></div></section>
-  <section class="panel"><h2 style="margin-bottom:10px">Cloud backup</h2>${driveSettingsHTML()}</section>
-  <section class="panel"><h2 style="margin-bottom:6px">Export and backup</h2>
+  </div><div class="sgroup" data-g="connect">${deviceSyncHTML()}
+  </div><div class="sgroup" data-g="connect"><section class="panel"><h2 style="margin-bottom:10px">Cloud backup</h2>${driveSettingsHTML()}</section>
+  </div><div class="sgroup" data-g="connect"><section class="panel"><h2 style="margin-bottom:6px">Export and backup</h2>
     <p class="muted small" style="margin-bottom:10px">A full backup includes activities, tasks, inbox, job applications, reviews, moods, cycle logs, journal entries, and every logged session. CSV files open in Excel or Google Sheets.</p>
     <div class="row"><button class="btn" data-act="export-json">Full backup (JSON)</button><button class="btn" data-act="export-journal">Journal (CSV)</button><button class="btn" data-act="export-log">Time log (CSV)</button><button class="btn" data-act="export-tasks">Task log (CSV)</button><button class="btn" data-act="export-apps">Applications (CSV)</button></div>
     <h3 style="margin:18px 0 6px">Restore from a backup</h3>
     <input type="file" accept="application/json,.json" data-ch="restore-file" aria-label="Choose a backup file">
-    <div id="restore-msg" style="margin-top:10px"></div></section>`;
+    <div id="restore-msg" style="margin-top:10px"></div></section></div>
+  </div>`;
 }
 // ---------- Mood characters (original shapes) ----------
 function starPts(cx, cy, n, r1, r2) { let p = []; for (let i = 0; i < n * 2; i++) { const r = i % 2 ? r2 : r1, a = Math.PI * i / n - Math.PI / 2; p.push((cx + r * Math.cos(a)).toFixed(1) + ',' + (cy + r * Math.sin(a)).toFixed(1)); } return p.join(' '); }
@@ -1953,7 +2106,7 @@ function viewJournal() {
       ${draft.mk ? '<button class="btn ghost" data-act="j-del">Delete</button>' : ''}<button class="btn primary" data-act="j-close">Done</button></div>
   </section>` : `<section class="panel tint"><h2 style="margin-bottom:10px">Start something</h2><div class="qj">${jtypesOn().map(x => `<button style="--c0:${x.c}" data-act="j-new" data-v="${x.k}">${svg(x.ic)}${x.l}</button>`).join('')}</div></section>`}
   <div class="row" style="justify-content:space-between;margin:6px 0 14px">
-    <div class="jtypes" role="group" aria-label="Filter entries"><button class="jt" style="--c0:#15233B" data-act="j-filter" data-v="all" aria-pressed="${jFilter === 'all'}">All</button>${jtypesOn().map(x => `<button class="jt" style="--c0:${x.c}" data-act="j-filter" data-v="${x.k}" aria-pressed="${jFilter === x.k}">${svg(x.ic)}${x.l}</button>`).join('')}</div>
+    <div class="jtypes" role="group" aria-label="Filter entries"><button class="jt" style="--c0:#15233B" data-act="j-filter" data-v="all" aria-pressed="${jFilter === 'all'}">All</button>${jtypesAll().filter(x => !x.hidden || jFilter === x.k || allEntries().some(e => e.type === x.k)).map(x => `<button class="jt" style="--c0:${x.c}" data-act="j-filter" data-v="${x.k}" aria-pressed="${jFilter === x.k}">${svg(x.ic)}${x.l}</button>`).join('')}</div>
     <div class="row" style="flex:0 1 auto"><label class="sr" for="jsearch">Search journal</label><input id="jsearch" class="field" style="flex:0 1 220px" data-in="j-search" value="${esc(jSearch)}" placeholder="Search entries"><button class="btn ${jcatOpen ? 'primary' : ''}" data-act="jcat-toggle">${svg('settings')}Categories</button></div></div>
   ${jcatOpen ? catManager() : ''}
   ${list.length ? `<div class="jgrid">${list.slice(0, 120).map(e => { const x = jtype(e.type); return `<button class="jcard" style="--c0:${x.c}" data-act="j-open" data-id="${e.id}" data-mk="${e.day.slice(0, 7)}">
@@ -2083,8 +2236,27 @@ function renderChrome() {
   const br = document.getElementById('brand'); if (br) { br.innerHTML = logoHTML(); br.className = 'brand' + avClass(); }
   document.title = (S && S.settings.appName) || 'Ta-Done!';
 }
+// Sync marker: quiet when everything is saved, visible only when something needs you to know.
+let syncSlow = false, syncSlowT = null, syncErrToasted = false;
+function syncPillHTML() {
+  const st = window.TADONE ? TADONE.sync() : { state: 'saved', waiting: 0 };
+  if (st.state === 'error') return `<button class="syncpill err" data-act="sync-retry" title="A change didn't reach the server. It's still kept on this device.">${svg('alert')}Not saved · Retry</button>`;
+  if (st.state === 'offline') return `<span class="syncpill off" role="status" title="${st.waiting ? 'Your changes are kept on this device and will save on their own when you\'re back online.' : 'You can keep using Ta-Done! offline.'}">${svg('cloudoff')}${st.waiting ? 'Offline · ' + plural(st.waiting, 'change') + ' waiting' : 'Offline'}</span>`;
+  if (st.state === 'saving' && syncSlow) return `<span class="syncpill" role="status">Saving…</span>`;
+  return '';
+}
+function paintSync() { document.querySelectorAll('.syncslot').forEach(el => { el.innerHTML = syncPillHTML(); }); const d = document.getElementById('devsync'); if (d && view === 'settings' && !d.contains(document.activeElement)) d.outerHTML = deviceSyncHTML(); }
+window.addEventListener('tadone-sync', e => {
+  const st = e.detail || {};
+  if (st.state === 'saving') { if (!syncSlowT) syncSlowT = setTimeout(() => { syncSlow = true; paintSync(); }, 1500); }
+  else { clearTimeout(syncSlowT); syncSlowT = null; syncSlow = false; }
+  if (st.state === 'error' && !syncErrToasted) { syncErrToasted = true; toast('A change didn\'t save. It\'s kept on this device. Tap Retry at the top.'); }
+  if (st.state !== 'error') syncErrToasted = false;
+  paintSync();
+});
 function appbar() {
   return `<div class="appbar"><button class="logo mobonly${avClass()}" data-act="nav" data-v="settings" aria-label="Profile and settings">${avatarInner()}</button><span class="name">${esc(S.settings.appName || 'Ta-Done!')}</span><span class="sp"></span>
+<span class="syncslot">${syncPillHTML()}</span>
 <button class="thm" data-act="theme-toggle" aria-label="${isDark() ? 'Switch to daytime look' : 'Switch to nighttime look'}" title="${isDark() ? 'Daytime look' : 'Nighttime look'}">${svg(isDark() ? 'sun' : 'moon')}</button>
 <button class="wm" data-act="work-mode" aria-pressed="${workMode}" title="${workMode ? 'Personal cards are hidden on this device. Tap to show them.' : 'Hide cycle and journal on this device, for screen sharing'}">${svg(workMode ? 'eyeoff' : 'eye')}${workMode ? 'Work mode on' : 'Work mode'}</button>
 </div>`;
@@ -2092,7 +2264,7 @@ function appbar() {
 
 // ---------- Streaks ----------
 function showedUp(d, now) {
-  if (allDayMs(d, now) >= 5 * 60000) return true;
+  if (allDayMs(d, now) > 0) return true;   // any time logged counts for the day
   if (S.tasks.some(t => t.done && t.doneAt && dayKey(t.doneAt) === d)) return true;
   if ((J[d.slice(0, 7)] || []).some(e => e.day === d)) return true;
   return false;
@@ -2109,12 +2281,25 @@ function mainStreak(now) {
 }
 
 // ---------- Dashboard widgets ----------
-function wTimers() { return `<section aria-label="Activity timers"><div id="cards" class="cards"></div></section>`; }
+const timerBar = () => S.settings.timerStyle !== 'cards';
+function wTimers() { return timerBar() ? `<section class="panel tbarwrap" aria-label="Activity timers"><div id="cards" class="tbar"></div></section>` : `<section aria-label="Activity timers"><div id="cards" class="cards"></div></section>`; }
+// One slim bar: every activity in a row with play, today's minutes and progress toward its goal.
+function chipHTML(a, now) {
+  const k = today(), ms = dayMs(a.id, k, now), goal = (a.goal || 0) * 60000;
+  const p = goal ? Math.min(1, ms / goal) : 0, tm = timerFor(a.id), running = !!(tm && tm.cur), paused = !!(tm && !tm.cur), done = goal && ms >= goal;
+  const label = (running ? 'Pause ' : (paused ? 'Resume ' : 'Start ')) + a.name;
+  const sub = running ? clock(runningMs(tm, now)) : paused ? 'Paused ' + clock(runningMs(tm, now)) : done ? 'Goal reached' : mins(ms) + ' / ' + (a.goal || 0) + ' min';
+  return `<article class="tchip${running ? ' running' : ''}${paused ? ' paused' : ''}${done ? ' done' : ''}" style="--c0:${esc(a.color)}" data-card="${esc(a.id)}">
+    <button class="tplay" data-act="toggle" data-id="${esc(a.id)}" aria-label="${esc(label)}">${running ? PAUSEI : PLAYI}</button>
+    <div class="tbody"><b title="${esc(a.name)}">${esc(a.name)}</b><span class="num">${esc(sub)}</span><div class="tprog"><span style="width:${(p * 100).toFixed(1)}%"></span></div></div>
+    
+  </article>`;
+}
 function wStreak(now) {
   const st = mainStreak(now), k = today(), w0 = weekStart(k);
   const dots = [0, 1, 2, 3, 4, 5, 6].map(i => { const d = addDays(w0, i), on = d <= k && showedUp(d, now), r = isRest(d);
     return `<span><i class="${on ? 'on' : r ? 'r' : ''}">${on ? FLAME(20) : r ? svg('moon') : d > k ? '' : FLAME(20, true)}</i>${['M', 'T', 'W', 'T', 'F', 'S', 'S'][i]}</span>`; }).join('');
-  const msg = st.cur === 0 ? 'Log 5 minutes, finish a task, or write a journal entry to light it up.' : showedUp(k, now) ? 'You showed up today. Keep the fire going!' : 'Do one small thing today to keep it alive.';
+  const msg = st.cur === 0 ? 'Log any time, finish a task, or write a journal entry to light it up.' : showedUp(k, now) ? 'You showed up today. Keep the fire going!' : 'Do one small thing today to keep it alive.';
   return `<section class="panel"><div class="streakw"><div class="big">${FLAME(62, st.cur === 0)}<b class="num">${st.cur}</b></div>
     <div><h2>${st.cur === 1 ? '1-day streak' : st.cur + '-day streak'}</h2><p class="muted small">${esc(msg)}</p><p class="small" style="font-weight:700;margin-top:4px">Best: ${st.best} ${st.best === 1 ? 'day' : 'days'}</p></div></div>
     <div class="wdots">${dots}</div></section>`;
@@ -2151,6 +2336,7 @@ function wCapture() {
     <div class="captype" role="group" aria-label="Save as">${CAPTYPES.map(([v, ic, l]) => `<button data-act="cap-type" data-v="${v}" aria-pressed="${capType === v}">${svg(ic)}${l}</button>`).join('')}</div>
     <form class="row" data-form="capture"><label class="sr" for="cap">Write anything down</label><input id="cap" class="field" placeholder="${capType === 'idea' ? 'An idea worth keeping' : capType === 'note' ? 'Something to remember' : capType === 'task' ? 'Something to do' : 'Anything at all'}" autocomplete="off"><button class="btn primary">Save</button>
       ${capType === 'task' ? `<div class="row capmore" style="flex-basis:100%;align-items:flex-end;margin-top:4px">
+        <div style="flex-basis:100%"><label class="lbl" for="capnote">Note (optional)</label><textarea id="capnote" class="field" rows="2" style="width:100%" placeholder="Links, details, anything to remember"></textarea></div>
         <div style="flex:1 1 130px"><label class="lbl" for="capdue">Due date</label><input id="capdue" type="date" class="field" style="width:100%" value="${today()}"></div>
         <div style="flex:1 1 110px"><label class="lbl" for="captime">Time (optional)</label><input id="captime" type="time" class="field" style="width:100%"></div>
         <div style="flex:1 1 110px"><label class="lbl" for="cappri">Priority</label><select id="cappri" class="field" style="width:100%"><option value="normal">Normal</option><option value="urgent">Urgent</option><option value="high">High</option><option value="low">Low</option></select></div>
@@ -2172,7 +2358,7 @@ function wDreview(now) {
 function wWeek(now) { const k = today(); return `<section class="panel"><div class="sec-head"><h2>This week</h2><span class="muted small">${workDays(weekStart(k)) < 7 ? plural(workDays(weekStart(k)), 'active day') : 'Since Monday'}</span></div><div class="wk">${weekBars(weekStart(k), now)}</div></section>`; }
 const WLABEL = { 3: '1/4', 4: '1/3', 6: '1/2', 8: '2/3', 9: '3/4', 12: 'Full' };
 const WSTEPS = [3, 4, 6, 8, 9, 12];
-const WIDGETS = { timers: wTimers, plan: wPlan, gcal: wGcal, streak: wStreak, overview: wOverview, mood: () => moodHero(today()), tasks: wTasks, capture: wCapture, journal: wJournal, dreview: wDreview, cycle: () => cycleCard(true), week: wWeek };
+const WIDGETS = { pomo: wPomo, timers: wTimers, focus: wFocus, plan: wPlan, gcal: wGcal, streak: wStreak, overview: wOverview, mood: () => moodHero(today()), tasks: wTasks, capture: wCapture, journal: wJournal, dreview: wDreview, cycle: () => cycleCard(true), week: wWeek };
 
 function viewToday() {
   const now = Date.now(), k = today();
@@ -2186,11 +2372,11 @@ function viewToday() {
   const dash = S.settings.dash, hidden = dash.filter(w => !w.on && WIDGETS[w.id]);
   return appbar() + `
   <header class="hello"><div><h1>${esc(greeting())}</h1><div class="dateline"><span class="sub">${esc(prettyDay(k))}</span>${headerTabsHTML()}</div></div>
-    <div class="kpis stable"><button class="btn lime wnbtn" data-act="what-now">${svg('sparkle')}What now?</button>${bFind('streak') ? '' : `<div class="kpi"><span>Streak</span><b class="num" style="display:flex;align-items:center;gap:4px">${FLAME(26, st === 0)}${st}</b></div>`}<div class="kpi"><span>Logged today</span><b class="num" id="todaysum">${dur(allDayMs(k, now))}</b></div><div class="kpi"><span>Tasks done</span><b class="num">${doneToday}</b></div>
+    <div class="kpis stable">${bFind('focus') ? '' : `<button class="btn lime wnbtn" data-act="what-now">${svg('sparkle')}What now?</button>`}${bFind('streak') ? '' : `<div class="kpi"><span>Streak</span><b class="num" style="display:flex;align-items:center;gap:4px">${FLAME(26, st === 0)}${st}</b></div>`}<div class="kpi"><span>Logged today</span><b class="num" id="todaysum">${dur(allDayMs(k, now))}</b></div><div class="kpi"><span>Tasks done</span><b class="num">${doneToday}</b></div>
 </div></header>
   <button class="fab ${editDash ? 'on' : ''}" data-act="dash-edit" aria-pressed="${editDash}" aria-label="${editDash ? 'Done arranging' : 'Arrange dashboard'}" title="${editDash ? 'Done' : 'Arrange dashboard'}">${svg(editDash ? 'tasks' : 'grid')}</button>
   ${editDash ? `<div class="notice"><span>Tap a shape to set each row's columns. Drag cards by their top bar into any column, and stack as many as you like. On a phone, use the arrows.${S.settings.phoneFirst !== false ? ' Your phone shows timers, tasks, and schedule first; change that in Settings.' : ''}</span><button class="btn sm" data-act="dash-reset">Reset layout</button></div>` : ''}
-  ${wnPanelHTML()}
+  ${bFind('focus') ? '' : wnPanelHTML()}
   ${rest ? `<div class="notice rest"><span>Rest day. Goals and streaks won't count against you today, so recharge.</span></div>` : ''}
   ${soon.map(t => `<div class="notice warm"><span>Due soon: <b>${esc(t.title)}</b> at ${esc(t12(t.dueTime))}</span><button class="btn sm" data-act="task-done" data-id="${t.id}">Mark done</button></div>`).join('')}
   ${follow.length ? `<div class="notice"><span>Follow up today: ${follow.map(a => `<b>${esc(a.company)}</b>`).join(', ')}</span><button class="btn sm" data-act="nav" data-v="jobs">Open jobs</button></div>` : ''}
@@ -2229,6 +2415,151 @@ function wnPanelHTML() {
     : acts.length ? `<label class="sr" for="wnact">Time it as</label><select id="wnact" class="field" style="min-height:42px"><option value="">Time it as…</option>${acts.map(a => `<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('')}</select><button class="btn lime" data-act="wn-start" data-id="${t.id}">${svg('play')}Start</button>` : '';
   return `<div class="wnbox"><div style="min-width:0"><small>Next up</small><b>${esc(t.title)}</b>${ns ? `<span class="nextstep">First step: ${esc(ns.t)}</span>` : `<span class="nextstep muted">Tip: open it and add a 2-minute first step.</span>`}</div>
     <div class="row">${timeCtl}<button class="btn" data-act="task-done" data-id="${t.id}">${CHECKI}Done</button><button class="btn ghost" data-act="wn-skip">Not now</button><button class="x" data-act="wn-close" aria-label="Close What now">×</button></div></div>`;
+}
+
+// ---------- Pomodoro: focus and break rounds, with sounds ----------
+// Settings sync across devices; the running countdown belongs to this device.
+const POMO_DEF = { focus: 25, short: 5, long: 15, rounds: 4, autoBreak: true, autoFocus: false, sound: 'chime', volume: 0.6, activity: '', notify: false };
+const POMO_SOUNDS = [['chime', 'Chime'], ['bell', 'Bell'], ['beeps', 'Soft beeps'], ['wood', 'Wood block'], ['birds', 'Birdsong'], ['off', 'No sound']];
+const POMO_PH = { focus: 'Focus', short: 'Short break', long: 'Long break' };
+const pset = () => Object.assign({}, POMO_DEF, (S && S.settings.pomo) || {});
+let PR = null;            // { phase, round, endsAt, left, running }
+let pomoNodes = [], pomoOpen = false, pomoT = null;
+try { PR = JSON.parse(localStorage.getItem('tadone-pomo') || 'null'); } catch (e) { PR = null; }
+const pomoSave = () => { try { localStorage.setItem('tadone-pomo', JSON.stringify(PR)); } catch (e) { } };
+const phaseMs = ph => pset()[ph] * 60000;
+function pomoLeft(now) { if (!PR) return phaseMs('focus'); return PR.running ? Math.max(0, PR.endsAt - now) : PR.left; }
+function pomoInit() { if (!PR) PR = { phase: 'focus', round: 1, left: phaseMs('focus'), running: false, endsAt: 0 }; }
+// Sounds are made in the browser, so nothing extra to download. Each returns the nodes it scheduled.
+function pomoSound(kind, delay) {
+  audioReady(); if (!actx || kind === 'off') return [];
+  const vol = Math.max(0, Math.min(1, pset().volume)), t0 = actx.currentTime + Math.max(0, delay || 0), out = [];
+  const tone = (f, at, len, type, peak) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = type || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t0 + at); g.gain.exponentialRampToValueAtTime(Math.max(0.0002, (peak || 0.2) * vol), t0 + at + 0.015); g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + len);
+    o.connect(g).connect(actx.destination); o.start(t0 + at); o.stop(t0 + at + len + 0.05); out.push(o); };
+  if (kind === 'chime') [[659.25, 0], [880, 0.16], [1318.5, 0.32]].forEach(([f, d]) => tone(f, d, 1.1));
+  else if (kind === 'bell') [0, 1.4].forEach(d => { tone(523.25, d, 2.2, 'sine', 0.22); tone(1046.5, d, 1.6, 'sine', 0.08); tone(1567.98, d, 0.9, 'sine', 0.05); });
+  else if (kind === 'beeps') [0, 0.32, 0.64, 1.3, 1.62, 1.94].forEach(d => tone(880, d, 0.18, 'triangle', 0.18));
+  else if (kind === 'wood') [0, 0.22, 0.44, 1.1, 1.32, 1.54].forEach(d => tone(1200, d, 0.07, 'square', 0.12));
+  else if (kind === 'birds') [0, 0.12, 0.24, 0.9, 1.0, 1.1, 1.2].forEach((d, i) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = 'sine';
+    o.frequency.setValueAtTime(2400 + (i % 3) * 300, t0 + d); o.frequency.exponentialRampToValueAtTime(3600 + (i % 2) * 400, t0 + d + 0.08);
+    g.gain.setValueAtTime(0.0001, t0 + d); g.gain.exponentialRampToValueAtTime(0.12 * vol + 0.0002, t0 + d + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.1);
+    o.connect(g).connect(actx.destination); o.start(t0 + d); o.stop(t0 + d + 0.15); out.push(o); });
+  return out;
+}
+function pomoCancelSound() { pomoNodes.forEach(o => { try { o.stop(0); } catch (e) { } }); pomoNodes = []; }
+// Schedule the end-of-phase sound on the audio clock, so it plays on time even if the tab is in the background.
+function pomoArm() { pomoCancelSound(); if (PR && PR.running) { pomoNodes = pomoSound(pset().sound, (PR.endsAt - Date.now()) / 1000); PR.armed = pomoNodes.length > 0; } }
+async function pomoLink(on) {
+  const aid = pset().activity; if (!aid || !actById(aid) || actById(aid).archived) return;
+  const tm = timerFor(aid);
+  if (on) { if (!tm) await startAct(aid); else if (!tm.cur) resumeTimer(aid); }
+  else if (on === false && tm) await stopTimer(aid, Date.now(), true);
+}
+function pomoStart() { pomoInit(); audioReady(); PR.running = true; PR.endsAt = Date.now() + PR.left; pomoArm(); pomoSave(); if (PR.phase === 'focus') pomoLink(true); pomoPaint(); }
+function pomoPause() { if (!PR || !PR.running) return; PR.left = Math.max(0, PR.endsAt - Date.now()); PR.running = false; pomoCancelSound(); pomoSave(); const aid = pset().activity; if (PR.phase === 'focus' && aid) pauseTimer(aid); pomoPaint(); }
+function pomoNext(auto) {
+  const s = pset(); let { phase, round } = PR;
+  if (phase === 'focus') { if (s.activity) pomoLink(false); phase = round >= s.rounds ? 'long' : 'short'; }
+  else { if (phase === 'long') round = 1; else round++; phase = 'focus'; }
+  PR = { phase, round, left: phaseMs(phase), running: false, endsAt: 0 };
+  const go = auto && (phase === 'focus' ? s.autoFocus : s.autoBreak);
+  pomoSave(); if (go) pomoStart(); else pomoPaint();
+}
+function pomoReset() { pomoCancelSound(); if (PR && PR.phase === 'focus' && pset().activity) pomoLink(false); PR = null; pomoInit(); pomoSave(); pomoPaint(); }
+function pomoEnded() {
+  const ph = PR.phase, s = pset();
+  if (!PR.armed) pomoSound(s.sound, 0);
+  const msg = ph === 'focus' ? (PR.round >= s.rounds ? 'Focus done. Time for a long break.' : 'Focus done. Take a short break.') : 'Break over. Ready to focus?';
+  toast(msg);
+  if (s.notify && 'Notification' in window && Notification.permission === 'granted' && document.hidden) { try { new Notification('Ta-Done! Pomodoro', { body: msg, icon: '/ta-done/icon-192.png', tag: 'tadone-pomo' }); } catch (e) { } }
+  pomoNext(true);
+}
+function wPomo() {
+  pomoInit(); const s = pset(), now = Date.now(), left = pomoLeft(now), total = phaseMs(PR.phase), p = total ? 1 - left / total : 0;
+  const act = s.activity && actById(s.activity);
+  return `<section class="panel pomo ph-${PR.phase}${PR.running ? ' on' : ''}" id="pomo">
+    <div class="sec-head"><h2>Pomodoro</h2><button class="btn sm icon ghost" data-act="pomo-gear" aria-expanded="${pomoOpen}" aria-label="Pomodoro settings">${svg('settings')}</button></div>
+    <div class="seg pomo-ph" role="group" aria-label="Pomodoro phase">${Object.entries(POMO_PH).map(([k, l]) => `<button data-act="pomo-phase" data-v="${k}" aria-pressed="${PR.phase === k}" ${PR.running ? 'disabled' : ''}>${l}</button>`).join('')}</div>
+    <div class="pomo-clock"><b class="num" id="pomo-clk" aria-live="off">${clock(left)}</b><span class="muted small">Round ${Math.min(PR.round, s.rounds)} of ${s.rounds}${act ? ' · logs to ' + esc(act.name) : ''}</span></div>
+    <div class="pomo-bar" role="img" aria-label="${Math.round(p * 100)}% of this ${POMO_PH[PR.phase].toLowerCase()} done"><span id="pomo-prog" style="width:${(p * 100).toFixed(1)}%"></span></div>
+    <div class="row pomo-ctl">${PR.running ? `<button class="btn primary" data-act="pomo-pause">${PAUSEI}Pause</button>` : `<button class="btn lime" data-act="pomo-start">${PLAYI}${left < total ? 'Resume' : 'Start ' + POMO_PH[PR.phase].toLowerCase()}</button>`}
+      <button class="btn" data-act="pomo-skip">Skip</button><button class="btn ghost" data-act="pomo-reset">Reset</button></div>
+    ${pomoOpen ? pomoSettingsHTML() : ''}</section>`;
+}
+function pomoSettingsHTML() {
+  const s = pset(), acts = activeActs();
+  const num = (k, l, max) => `<div><label class="lbl" for="pm-${k}">${l}</label><input id="pm-${k}" class="field" type="number" min="1" max="${max}" data-ch="pomo-set" data-k="${k}" value="${s[k]}"></div>`;
+  const tog = (k, l) => `<label class="chk small"><input type="checkbox" data-ch="pomo-set" data-k="${k}" ${s[k] ? 'checked' : ''}> ${l}</label>`;
+  return `<div class="pomo-set">
+    <div class="pomo-grid">${num('focus', 'Focus (min)', 180)}${num('short', 'Short break', 60)}${num('long', 'Long break', 90)}${num('rounds', 'Rounds', 12)}</div>
+    <div><label class="lbl" for="pm-sound">Sound</label><div class="row"><select id="pm-sound" class="field" data-ch="pomo-set" data-k="sound">${POMO_SOUNDS.map(([v, l]) => `<option value="${v}" ${s.sound === v ? 'selected' : ''}>${l}</option>`).join('')}</select><button class="btn sm ghost" data-act="pomo-test">Play</button></div></div>
+    <div><label class="lbl" for="pm-vol">Volume</label><input id="pm-vol" type="range" min="0" max="1" step="0.05" data-ch="pomo-set" data-k="volume" value="${s.volume}" style="width:100%"></div>
+    <div><label class="lbl" for="pm-act">Log focus time to</label><select id="pm-act" class="field" data-ch="pomo-set" data-k="activity"><option value="">Don't log it</option>${acts.map(a => `<option value="${esc(a.id)}" ${s.activity === a.id ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select>
+      <p class="muted small" style="margin-top:4px">Focus rounds run that activity's timer, so they count toward its goal and your streak.</p></div>
+    <div class="pomo-tg">${tog('autoBreak', 'Start breaks on their own')}${tog('autoFocus', 'Start the next focus on its own')}${tog('notify', 'Show a notification when a round ends')}</div>
+  </div>`;
+}
+function pomoPaint() { const el = document.getElementById('pomo'); if (el && !el.contains(document.activeElement && document.activeElement.matches('input,select') ? document.activeElement : null)) { const d = document.createElement('div'); d.innerHTML = wPomo(); el.replaceWith(d.firstElementChild); } }
+function pomoTick() {
+  if (!PR || !PR.running) return;
+  const now = Date.now();
+  if (now >= PR.endsAt) { pomoEnded(); return; }
+  const c = document.getElementById('pomo-clk'), b = document.getElementById('pomo-prog');
+  if (c) c.textContent = clock(PR.endsAt - now);
+  if (b) b.style.width = ((1 - (PR.endsAt - now) / phaseMs(PR.phase)) * 100).toFixed(1) + '%';
+}
+setInterval(pomoTick, 500);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) pomoTick(); });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act^="pomo-"]'); if (!b || !S) return;
+  const a = b.dataset.act; audioReady();
+  if (a === 'pomo-start') pomoStart();
+  else if (a === 'pomo-pause') pomoPause();
+  else if (a === 'pomo-skip') { pomoCancelSound(); pomoInit(); pomoNext(false); }
+  else if (a === 'pomo-reset') pomoReset();
+  else if (a === 'pomo-phase') { pomoInit(); if (PR.running) return; PR.phase = b.dataset.v; PR.left = phaseMs(PR.phase); pomoSave(); pomoPaint(); }
+  else if (a === 'pomo-gear') { pomoOpen = !pomoOpen; pomoPaint(); }
+  else if (a === 'pomo-test') pomoSound(pset().sound, 0);
+});
+document.addEventListener('change', e => {
+  const el = e.target.closest('[data-ch="pomo-set"]'); if (!el || !S) return;
+  const k = el.dataset.k, cur = pset();
+  let v = el.type === 'checkbox' ? el.checked : el.type === 'number' ? Math.max(1, Math.min(Number(el.max) || 999, Math.round(Number(el.value) || POMO_DEF[k]))) : el.type === 'range' ? Number(el.value) : el.value;
+  if (k === 'notify' && v && 'Notification' in window && Notification.permission !== 'granted') { Notification.requestPermission().then(r => { if (r !== 'granted') { toast('Notifications are blocked in this browser. Sounds still play.'); } }); }
+  S.settings.pomo = Object.assign({}, cur, { [k]: v }); saveState();
+  // A new length applies straight away if this phase hasn't started yet.
+  if (PR && !PR.running && ['focus', 'short', 'long'].includes(k) && PR.phase === k && PR.left === cur[k] * 60000) { PR.left = v * 60000; pomoSave(); }
+  if (k === 'sound' || k === 'volume') { if (PR && PR.running) pomoArm(); }
+  if (el.type !== 'range') pomoPaint();
+});
+
+// ---------- Start here: one card that always shows the single next move ----------
+// Morning before planning: plan (2 min). Evening before wrapping up: review (3 min).
+// Any other time: the one task to do next, with its first tiny step and a start button.
+let focusMode = null;   // 'next' when you skip planning or reviewing for now
+function wnAuto() { if (wn && wn.id && taskById(wn.id) && !taskById(wn.id).done) return; const skip = (wn && wn.skip) || []; const list = wnCandidates().filter(t => !skip.includes(t.id)); wn = list[0] ? { id: list[0].id, skip } : (wn && wn.id ? wn : null); }
+function wFocus(now) {
+  const k = today(), h = hourIn(now), planned = !!S.dailyPlans[k], reviewed = !!(S.dailyReviews[k] && S.dailyReviews[k].savedAt);
+  if (focusMode !== 'next' && h >= 4 && h < 12 && !planned && !isRest(k)) return `<section class="panel focus am"><small>Start here</small><h2>Plan your day</h2>
+    <p class="small">Two minutes: see what's fixed, pick up to 3 tasks, start the first one.</p>
+    <div class="row"><button class="btn lime" data-act="plan-open">${svg('sun')}Plan my day</button><button class="btn ghost on-dark" data-act="focus-skip">Skip, show my next task</button></div></section>`;
+  if (focusMode !== 'next' && h >= 18 && !reviewed) return `<section class="panel focus pm"><small>Start here</small><h2>Wrap up today</h2>
+    <p class="small">Three minutes: what got done, how it felt, what's first tomorrow.</p>
+    <div class="row"><button class="btn lime" data-act="open-dreview">${svg('sparkle')}Review my day</button><button class="btn ghost on-dark" data-act="focus-skip">Not yet, show my next task</button></div></section>`;
+  wnAuto();
+  const t = wn && taskById(wn.id);
+  const after = reviewed ? `<button class="btn sm ghost" data-act="open-dreview">Open today's review</button>` : planned ? `<button class="btn sm ghost" data-act="plan-open">Open plan</button>` : `<button class="btn sm ghost" data-act="plan-open">Plan my day</button>`;
+  if (!t || t.done) return `<section class="panel focus"><small>Start here</small><h2>${t && t.done ? 'Nice, that one\'s done.' : 'Nothing waiting'}</h2>
+    <p class="small muted">${t && t.done ? 'Ready for the next one?' : 'No tasks due or starred. Tap play on an activity above, or add a task.'}</p>
+    <div class="row">${t && t.done ? `<button class="btn lime" data-act="focus-next">${svg('sparkle')}Next one</button>` : `<button class="btn" data-act="nav" data-v="tasks">${svg('tasks')}Add a task</button>`}${after}</div></section>`;
+  const ns = t.subs.find(x => !x.done), acts = activeActs(), tm = t.activityId && timerFor(t.activityId), running = tm && tm.taskId === t.id;
+  const timeCtl = running ? `<span class="chip lime">${svg('clock')}Timer running</span>`
+    : t.activityId ? `<button class="btn lime" data-act="wn-start" data-id="${t.id}">${svg('play')}Start ${esc(actById(t.activityId).name)} timer</button>`
+    : acts.length ? `<label class="sr" for="wnact">Time it as</label><select id="wnact" class="field" style="min-height:42px;flex:0 1 180px"><option value="">Time it as…</option>${acts.map(a => `<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('')}</select><button class="btn lime" data-act="wn-start" data-id="${t.id}">${svg('play')}Start</button>` : '';
+  return `<section class="panel focus"><small>Start here · Next up</small><h2><button class="ttl" data-act="open-task" data-id="${t.id}">${esc(t.title)}</button></h2>
+    ${ns ? `<p class="nextstep">First step: ${esc(ns.t)}</p>` : `<p class="nextstep muted">Feels big? Open it and add a 2-minute first step.</p>`}
+    <div class="row">${timeCtl}<button class="btn" data-act="task-done" data-id="${t.id}">${CHECKI}Done</button><button class="btn ghost" data-act="wn-skip">Not now</button><span style="flex:1"></span>${after}</div></section>`;
 }
 
 // ---------- Morning plan ----------
@@ -2433,11 +2764,33 @@ function boardFromDash(dash) {
   });
   return rows.map(r => { const s = splitFor(r.spans), n = s.split('-').length, cols = r.c.slice(0, n); while (cols.length < n) cols.push([]); r.c.slice(n).forEach(x => cols[n - 1].push(...x)); return { id: r.id, s, c: cols }; });
 }
+// The arranged layout. Top: what to do now and how you feel. Then the tools to do it (timers, Pomodoro),
+// then the plan for today, then the look back (week, streak, cycle).
+function strategicBoard() {
+  return [
+    { id: rid(), s: '8-4', c: [['focus', 'timers', 'capture'], ['mood']] },
+    { id: rid(), s: '6-6', c: [['tasks'], ['pomo', 'gcal']] },
+    { id: rid(), s: '8-4', c: [['week'], ['streak', 'cycle']] },
+  ];
+}
 function ensureBoard() {
   const st = S.settings;
   if (!st.board || !Array.isArray(st.board.rows)) st.board = { rows: boardFromDash(st.dash) };
   if (!st.planPlaced) { st.planPlaced = true; if (!st.board.rows.some(r => r.c.flat().includes('plan'))) { const ti = st.board.rows.findIndex(r => r.c.flat().includes('timers')); st.board.rows.splice(ti >= 0 ? ti + 1 : 0, 0, { id: rid(), s: '12', c: [['plan']] }); } }
   if (!st.gcalPlaced) { st.gcalPlaced = true; if (!st.board.rows.some(r => r.c.flat().includes('gcal'))) st.board.rows.splice(Math.min(1, st.board.rows.length), 0, { id: rid(), s: '12', c: [['gcal']] }); }
+  // One "Start here" card takes the place of Morning plan and Daily review; Task overview and Journal
+  // cards are tucked away (Tasks and Journal are in the menu). All can be shown again from Hidden cards.
+  if (!st.focusPlaced) {
+    st.focusPlaced = true;
+    if (!st.board.rows.some(r => r.c.flat().includes('focus'))) {
+      const p = bFind('plan');
+      if (p) st.board.rows[p[0]].c[p[1]][p[2]] = 'focus';
+      else { const ti = st.board.rows.findIndex(r => r.c.flat().includes('timers')); st.board.rows.splice(ti >= 0 ? ti + 1 : 0, 0, { id: rid(), s: '12', c: [['focus']] }); }
+    }
+    ['plan', 'dreview', 'overview', 'journal'].forEach(id => bRemove(id));
+    st.board.rows = st.board.rows.filter(r => r.c.flat().length);
+  }
+  if (!st.layoutV2) { st.layoutV2 = true; st.board = { rows: strategicBoard() }; }
   const placed = new Set(st.board.rows.flatMap(r => r.c.flat()));
   st.dash.forEach(w => { w.on = placed.has(w.id); });
 }
@@ -2563,7 +2916,7 @@ function gcErrorHTML(err) {
   const c = err && err.code;
   if (c === 'needs_reauth') return 'Your Google sign-in expired. <a href="/api/auth/google?reconnect=1">Reconnect Google</a>.';
   if (c === 'server_not_connected' || c === 'server_not_found') return 'Connect Google to see your meetings here. <a href="/api/auth/google?reconnect=1">Reconnect Google</a>.';
-  if (c === 'selection_required') return 'You have more than one Google Calendar connected. Pick one when Claude asks, then reload.';
+  if (c === 'selection_required') return 'You have more than one Google Calendar connected. Pick one in Settings, then reload.';
   if (c === 'not_in_manifest' || c === 'consent_required') return `Calendar access is turned off for this page. <button class="btn sm" data-act="gc-perms">Allow access</button>`;
   if (c === 'blocked_by_policy' || c === 'approval_required') return 'Your organization blocks calendar access here.';
   if (c === 'not_granted' || c === 'capability_disabled') return 'Calendar isn\'t available in this view. Reload the page to try again.';
@@ -2987,6 +3340,21 @@ function wrapRender() {
   clearTimeout(wrapTimer); if (!wrapPaused && wrapIdx < sl.length - 1) wrapTimer = setTimeout(() => { wrapIdx++; wrapRender(); }, 6500);
 }
 document.addEventListener('keydown', e => { if (!wrapOpen) return; if (e.key === 'Escape') { wrapOpen = false; wrapRender(); } else if (e.key === 'ArrowRight') { wrapIdx++; wrapRender(); } else if (e.key === 'ArrowLeft') { wrapIdx--; wrapRender(); } });
+// ---------- Keyboard shortcuts (computer only; ignored while you're typing) ----------
+const KEYS = [['n', 'Write something down (quick capture)'], ['h', 'Go to Today'], ['t', 'Go to Tasks'], ['j', 'Go to Journal'], ['.', 'Jump to Start here'], ['?', 'Show these shortcuts']];
+function goView(v) { if (draft && v !== 'journal') { saveDraft(); draft = null; } view = v; editId = null; renderAll(true); window.scrollTo(0, 0); }
+document.addEventListener('keydown', e => {
+  if (!S || wrapOpen || e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
+  const el = document.activeElement; if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return;
+  if (document.getElementById('td-signin')) return;
+  const k = e.key;
+  if (k === 'n') { e.preventDefault(); if (!bFind('capture')) { goView('tasks'); setTimeout(() => { const f = $('form[data-form="task-add"] input'); if (f) f.focus(); }, 30); return; } if (view !== 'today') goView('today'); setTimeout(() => { const f = $('#cap'); if (f) { f.scrollIntoView({ block: 'center' }); f.focus(); } }, 30); }
+  else if (k === 'h') goView('today');
+  else if (k === 't') goView('tasks');
+  else if (k === 'j') goView('journal');
+  else if (k === '.') { if (view !== 'today') goView('today'); setTimeout(() => { const f = $('.focus'); if (f) { f.scrollIntoView({ block: 'center' }); const b = f.querySelector('.btn'); if (b) b.focus(); } }, 30); }
+  else if (k === '?') toast(KEYS.map(([a, b]) => a + ': ' + b).join(' · '));
+});
 // ---------- Toast ----------
 let toastTimer = null;
 function toast(msg, undo) {
@@ -3062,10 +3430,13 @@ if (window.matchMedia) { try { matchMedia('(prefers-color-scheme: dark)').addEve
 
 // ---------- Click events ----------
 document.addEventListener('click', async e => {
-  const b = e.target.closest('[data-act]'); if (!b || (!S && b.dataset.act !== 'setup')) return;
+  const b = e.target.closest('[data-act]');
+  if (b && b.dataset.act === 'boot-retry') { location.reload(); return; }
+  if (!b || (!S && b.dataset.act !== 'setup')) return;
   const act = b.dataset.act, id = b.dataset.id, now = Date.now();
   const t = id ? taskById(id) : null;
   switch (act) {
+    case 'sync-retry': { TADONE.retry(); toast(TADONE.sync().waiting ? 'Trying again…' : 'Checking for changes…'); break; }
     case 'setup': {
       b.disabled = true;
       S = migrate({ v: 3, activities: clone(DEFAULT_ACTIVITIES), createdAt: now });
@@ -3097,6 +3468,10 @@ document.addEventListener('click', async e => {
     case 'what-now': wnPick(); if (view !== 'today') view = 'today'; renderAll(true); window.scrollTo(0, 0); break;
     case 'wn-skip': if (wn) { wn.skip = (wn.skip || []).concat([wn.id]); wnPick(); renderAll(true); } break;
     case 'wn-close': wn = null; renderAll(true); break;
+    case 'timer-style': S.settings.timerStyle = b.dataset.v; saveState(); renderAll(true); break;
+    case 'set-tab': setTab = b.dataset.v; try { localStorage.setItem('tadone-settab', setTab); } catch (x) { } renderAll(true); window.scrollTo(0, 0); break;
+    case 'focus-skip': focusMode = 'next'; wn = null; renderAll(true); break;
+    case 'focus-next': wn = null; renderAll(true); break;
     case 'wn-start': { if (!t) break; audioReady(); if (!t.activityId) { const v = ($('#wnact') || {}).value; if (!v) { toast('Pick which activity to time it as.'); const sl = $('#wnact'); if (sl) sl.focus(); break; } t.activityId = v; saveState(); } await startAct(t.activityId, t.id); toast('Timing ' + t.title + '. You\'ve got this.'); break; }
     case 'plan-open': view = 'plan'; editId = null; renderAll(true); window.scrollTo(0, 0); break;
     case 'plan-done': { const k = today(); S.dailyPlans[k] = { at: now, top: S.tasks.filter(x => !x.done && x.top === k).map(x => x.id) }; saveState(); view = 'today';
@@ -3108,7 +3483,7 @@ document.addEventListener('click', async e => {
     case 'smart-add': S.settings.smartAdd = !S.settings.smartAdd; saveState(); renderAll(true); break;
     case 'dash-edit-go': view = 'today'; editDash = true; renderAll(true); window.scrollTo(0, 0); break;
     case 'dash-edit': editDash = !editDash; renderAll(true); break;
-    case 'dash-reset': S.settings.dash = DEFAULT_DASH.map(([wid, size]) => ({ id: wid, on: true, size, cols: size === 'full' ? 12 : 6, h: null })); S.settings.board = null; ensureBoard(); saveState(); renderAll(true); break;
+    case 'dash-reset': S.settings.dash = DEFAULT_DASH.map(([wid, size]) => ({ id: wid, on: !DASH_OFF.includes(wid), size, cols: size === 'full' ? 12 : 6, h: null })); S.settings.board = { rows: strategicBoard() }; S.settings.layoutV2 = true; ensureBoard(); saveState(); renderAll(true); break;
     case 'dash-move': { const shown = S.settings.dash.filter(w => w.on), i = shown.findIndex(w => w.id === id), j = i + Number(b.dataset.v); if (j < 0 || j >= shown.length) break; const A = S.settings.dash, ai = A.indexOf(shown[i]), aj = A.indexOf(shown[j]); [A[ai], A[aj]] = [A[aj], A[ai]]; saveState(); renderAll(true); break; }
     case 'dash-w': { const w = S.settings.dash.find(x => x.id === id); if (!w) break; const cur = WSTEPS.reduce((a, c) => Math.abs(c - (w.cols || 6)) < Math.abs(a - (w.cols || 6)) ? c : a, 6); const i2 = Math.max(0, Math.min(WSTEPS.length - 1, WSTEPS.indexOf(cur) + Number(b.dataset.v))); w.cols = WSTEPS[i2]; saveState(); renderAll(true); break; }
     case 'dash-fit': { const w = S.settings.dash.find(x => x.id === id); if (w) { w.h = null; saveState(); renderAll(true); } break; }
@@ -3290,10 +3665,10 @@ document.addEventListener('change', e => {
     case 'restore-file': {
       const f = el.files && el.files[0]; const msg = $('#restore-msg'); if (!f) return;
       f.text().then(txt => {
-        let d; try { d = JSON.parse(txt); } catch (x) { msg.innerHTML = '<p class="muted">That file isn\'t valid JSON. Choose a Life OS backup file.</p>'; return; }
+        let d; try { d = JSON.parse(txt); } catch (x) { msg.innerHTML = '<p class="muted">That file isn\'t valid JSON. Choose a Ta-Done! backup file.</p>'; return; }
         const ok = d && d.app === 'life-os' && d.state && Array.isArray(d.state.activities) && d.logs && typeof d.logs === 'object' &&
           Object.entries(d.logs).every(([mk, arr]) => /^\d{4}-\d{2}$/.test(mk) && Array.isArray(arr) && arr.every(s => s && s.id && s.activityId && Array.isArray(s.segs)));
-        if (!ok) { msg.innerHTML = '<p class="muted">This doesn\'t look like a Life OS backup. Nothing was changed.</p>'; return; }
+        if (!ok) { msg.innerHTML = '<p class="muted">This doesn\'t look like a Ta-Done! backup. Nothing was changed.</p>'; return; }
         const n = Object.values(d.logs).reduce((x, a) => x + a.length, 0);
         pendingRestore = { state: d.state, logs: d.logs, journal: (d.journal && typeof d.journal === 'object') ? d.journal : {} };
         msg.innerHTML = `<div class="notice warm"><span>Backup from ${esc((d.exportedAt || '').slice(0, 10) || 'unknown date')}: ${plural(d.state.activities.length, 'activity').replace('activitys', 'activities')}, ${plural((d.state.tasks || []).length, 'task')}, ${plural(n, 'session')}. Restoring replaces your current activities, tasks, and applications, plus the logged months in the file.</span>
@@ -3316,6 +3691,7 @@ document.addEventListener('submit', e => {
       p.dueTime = g('#captime') || p.dueTime; if (g('#caprep') && g('#caprep') !== 'none') p.repeat = g('#caprep');
       if ((p.dueTime || p.repeat !== 'none') && !p.due) p.due = today();
       const wantG = !!(f.querySelector('#capgcal') || {}).checked; const nt = addTask(p);
+      const note = ((f.querySelector('#capnote') || {}).value || '').trim(); if (note) { nt.notes = note.slice(0, 4000); saveState(); }
       const when = nt.due ? (nt.due === today() ? 'today' : shortDay(nt.due)) + (nt.dueTime ? ' at ' + t12(nt.dueTime) : '') : 'someday';
       if (wantG && nt.due) addTaskToGcal(nt); else toast('Added to tasks, due ' + when); }
     else if (capType === 'note' || capType === 'idea') { const k = today(), mk = k.slice(0, 7); setJournal(mk, (J[mk] || []).concat([{ id: rid(), type: capType, day: k, title: '', text: v.slice(0, 5000), createdAt: Date.now(), updatedAt: Date.now() }])); toast('Saved'); }
@@ -3330,7 +3706,7 @@ document.addEventListener('submit', e => {
   else if (kind === 'task-today') { const i = f.querySelector('input'); const p = readTask(i.value.trim()); if (!p.title) { i.focus(); return; } p.due = p.due || today(); addTask(p); renderAll(true); $('#tt') && $('#tt').focus(); }
   else if (kind === 'task-add') { const i = $('#tnew'); const p = readTask(i.value.trim()); if (!p.title) { i.focus(); toast('Type a task first'); return; }
     if ($('#tpri').value !== 'normal') p.priority = $('#tpri').value; p.due = $('#tdue').value || p.due; p.dueTime = $('#ttime').value || p.dueTime; if ($('#trep').value !== 'none') p.repeat = $('#trep').value;
-    if ((p.dueTime || p.repeat !== 'none') && !p.due) p.due = today(); const wantG = ($('#tgcal') || {}).checked; const nt = addTask(p); const step = (($('#tstep') || {}).value || '').trim(); if (step) { nt.subs.push({ id: rid(), t: step.slice(0, 200), done: false }); saveState(); } renderAll(true); $('#tnew') && $('#tnew').focus(); if (wantG && nt.due) addTaskToGcal(nt); else { if (wantG) toast('Task added. Give it a date to put it in Google Calendar.'); else toast('Task added'); } }
+    if ((p.dueTime || p.repeat !== 'none') && !p.due) p.due = today(); const wantG = ($('#tgcal') || {}).checked; const nt = addTask(p); const tnote = (($('#tnote') || {}).value || '').trim(); if (tnote) nt.notes = tnote.slice(0, 4000); const step = (($('#tstep') || {}).value || '').trim(); if (step) { nt.subs.push({ id: rid(), t: step.slice(0, 200), done: false }); saveState(); } renderAll(true); $('#tnew') && $('#tnew').focus(); if (wantG && nt.due) addTaskToGcal(nt); else { if (wantG) toast('Task added. Give it a date to put it in Google Calendar.'); else toast('Task added'); } }
   else if (kind === 'sub-add') { const t = taskById(f.dataset.id), i = f.querySelector('input'), v = i.value.trim(); if (!t || !v) { i.focus(); return; } t.subs.push({ id: rid(), t: v.slice(0, 200), done: false }); saveState(); renderAll(true); const n = document.getElementById('es-' + t.id); if (n) n.focus(); }
   else if (kind === 'app-add') { const co = $('#jco').value.trim(); if (!co) { $('#jco').focus(); toast('Add the company name'); return; }
     S.apps.push({ id: rid(), company: co.slice(0, 100), role: $('#jro').value.trim().slice(0, 120), stage: $('#jst').value, applied: $('#jap').value || null, followUp: $('#jfu').value || null, link: /^https?:\/\//.test($('#jli').value.trim()) ? $('#jli').value.trim() : '', notes: '', createdAt: Date.now() });
@@ -3416,22 +3792,34 @@ function showSetup() {
     <label class="btn filebtn" style="margin-top:6px">Import my Ta-Done! data<input type="file" accept=".json,application/json" data-ch="td-import" aria-label="Choose your Ta-Done! import file"></label>
     <p class="muted small" id="td-import-msg" role="status" style="margin-top:8px"></p>`);
 }
+// Shown when the app can't open at all: no connection and nothing saved on this device yet.
+function showBootError(slow) {
+  showMsg(`<h2>${slow ? 'Still loading' : 'Can\'t reach Ta-Done! right now'}</h2>
+    <p class="muted" style="margin:8px 0 16px">${slow ? 'Your connection seems slow. Your data is safe, it just hasn\'t arrived yet.' : 'Check your Wi-Fi or data. Ta-Done! will open on its own when you\'re back online.'}</p>
+    <button class="btn primary" data-act="boot-retry">Try again</button>`);
+}
+let booting = false;
 async function boot() {
-  if (!window.claude || typeof window.claude.use !== 'function') { showMsg('<h2>Open Life OS in Claude</h2><p class="muted" style="margin-top:8px">Your data is saved to your Claude account, so open this page from its claude.ai link while you\'re signed in.</p>'); return; }
+  if (booting) return; booting = true;
+  try { await bootInner(); }
+  catch (e) { if (!S) showBootError(false); }
+  finally { booting = false; }
+}
+window.addEventListener('online', () => { if (!S && !col) boot(); });
+async function bootInner() {
   const [d, u, w, as, mc] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('downloads'), claude.use('assets'), claude.use('mcp')]);
   mcpNs = mc;
   assetsNs = as;
   db = d; userNs = u; dl = w;
-  if (!db || !userNs) { showMsg('<h2>Sign in to use Life OS</h2><p class="muted" style="margin-top:8px">Open this page while signed in to Claude so your data can be saved and synced.</p>'); return; }
   uid = await userNs.id();
-  if (!uid) { showMsg('<h2>Sign in to use Life OS</h2><p class="muted" style="margin-top:8px">Your private space couldn\'t be found. Make sure you\'re signed in to Claude.</p>'); return; }
   col = db.collection('data/users/' + uid); stateRef = col.doc('state'); timerRef = col.doc('timer');
   let gotFirst = false;
-  const setupTimer = setTimeout(() => { if (!gotFirst) showSetup(); }, 6000);
+  // Never offer first-time setup just because loading is slow: that could replace real data.
+  const slowTimer = setTimeout(() => { if (!gotFirst && !S) showBootError(true); }, 8000);
   col.onSnapshot(snap => {
     const hasState = snap.docs.some(x => x.id === 'state');
     if (!hasState && snap.metadata.fromCache && !gotFirst) return;
-    gotFirst = true; clearTimeout(setupTimer);
+    gotFirst = true; clearTimeout(slowTimer);
     const newL = {}, newJ = {}, newA = {}; let newT = [], newS = null;
     for (const doc of snap.docs) {
       const data = doc.data(); if (!data) continue;
@@ -3444,7 +3832,7 @@ async function boot() {
     L = newL; lver++; TS = newT; J = newJ; ARCH = newA; ARCHSIG = {}; Object.keys(newA).forEach(mk => { ARCHSIG[mk] = JSON.stringify(Object.assign(emptyArch(), newA[mk])); });
     if (newS) { S = migrate(mergeArchives(newS, ARCH)); gsyncAfterSnapshot(); applyTZ(); setTimeout(detectCutout, 0); gcWatch(); wxStart(); maybeAutoBackup(); syncFollowUps(); if (revTimer && S.reviews) { /* keep typing intact */ } applyFont(); renderAll(); }
     else if (!S) showSetup();
-  }, () => { showMsg('<h2>Can\'t reach your data right now</h2><p class="muted" style="margin-top:8px">Reload the page to try again.</p>'); });
+  }, () => { clearTimeout(slowTimer); if (!S) { col = null; showBootError(false); } });
 }
 // ---------- Google sync: journal → Google Docs, time log → Google Sheet, tasks ↔ Google Tasks ----------
 const GSYNC = { docs: { busy: false, err: null, at: 0 }, sheet: { busy: false, err: null, at: 0 }, tasks: { busy: false, err: null, at: 0 }, links: null, linksAt: 0 };
@@ -3611,6 +3999,14 @@ document.addEventListener('change', async e => {
   } catch (x) { if (msg) msg.textContent = x && x.code === 'exists' ? 'You already have data here, so nothing was changed.' : 'That isn\'t a Ta-Done! import file.'; }
 });
 
+// Lock: also clears this device's offline copy, so nothing private stays behind.
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href="/api/auth/logout"]'); if (!a) return;
+  const n = TADONE.sync().waiting;
+  if (n && !confirm((n === 1 ? '1 change hasn\'t' : n + ' changes haven\'t') + ' saved yet. Locking now will lose them. Lock anyway?')) { e.preventDefault(); return; }
+  TADONE.forgetDevice();
+});
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/ta-done/sw.js', { scope: '/ta-done/' }).catch(() => { }); }); }
 boot();
 })();
 
