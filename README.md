@@ -17,10 +17,3 @@ It's a simple, editorial-style site written in plain HTML, CSS and JavaScript. T
 I coded this site myself but agent helped me with a few other things like link preview settings and how the site behaves when you rotate your phone & across other devices. The idea, the words, the design direction and everything else coded here are mine.
 
 I'm also vibe coding a Notion-style workspace for a future client. It's still in progress and isn't part of the public site.
-
-## Say hi
-
-Looking for a VA, or just want to say hello? I'd love to hear from you.
-
-- Email: angdorothyanne@gmail.com
-- Book a call: [cal.com/dorothy-ang-pfv9ku](https://cal.com/dorothy-ang-pfv9ku/30min)
